@@ -1,5 +1,7 @@
 {
     "chat.tools.terminal.autoApprove": {
-        "npx skills": true
+        "npx skills": true,
+        "supabase": true,
+        "npx supabase": true
     }
 }
