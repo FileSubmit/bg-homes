@@ -1,13 +1,16 @@
 import { initRouter } from './router.js';
 import { hydrateFooter, renderFooter } from './components/footer/footer.js';
-import { hydrateHeader, renderHeader, setHeaderActive } from './components/header/header.js';
+import { hydrateHeader, renderHeader } from './components/header/header.js';
+import { getAuthState, initializeAuth, subscribeAuthState } from './lib/auth.js';
 
-export function bootstrapApp() {
+export async function bootstrapApp() {
   const app = document.querySelector('#app');
 
   if (!app) {
     return;
   }
+
+  await initializeAuth();
 
   app.innerHTML = `
     <div class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
@@ -21,18 +24,31 @@ export function bootstrapApp() {
   const pageSlot = app.querySelector('[data-page-slot]');
   const footerSlot = app.querySelector('[data-footer-slot]');
 
-  if (headerSlot) {
-    headerSlot.innerHTML = renderHeader();
+  const renderShellHeader = () => {
+    if (!headerSlot) {
+      return;
+    }
+
+    headerSlot.innerHTML = renderHeader(window.location.pathname, getAuthState());
     hydrateHeader(headerSlot);
-  }
+  };
+
+  renderShellHeader();
 
   if (footerSlot) {
     footerSlot.innerHTML = renderFooter();
     hydrateFooter(footerSlot);
   }
 
-  initRouter({
+  const router = initRouter({
     pageSlot,
-    onRouteChange: ({ pathname }) => setHeaderActive(pathname),
+    onRouteChange: () => {
+      renderShellHeader();
+    },
+  });
+
+  subscribeAuthState(() => {
+    renderShellHeader();
+    router.refresh();
   });
 }

@@ -2,6 +2,23 @@
     "chat.tools.terminal.autoApprove": {
         "npx skills": true,
         "supabase": true,
-        "npx supabase": true
+        "npx supabase": true,
+        "npm install": true,
+        "/^python3 - <<'PY'\nimport json, os, urllib\\.request, urllib\\.error\nbase='https://vwgkkpgjrudklrbbdrqf\\.supabase\\.co'\nservice='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3Z2trcGdqcnVka2xyYmJkcnFmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzE3NzQ1MCwiZXhwIjoyMDk4NzUzNDUwfQ\\.NRfyOLN_iXVgDcc7aXFO09UCHCx_gxlwIL4dGPS8lUc'\nemail='admin@bg-homes\\.local'\npassword='BgHomesAdmin!2026'\npayload=json\\.dumps\\(\\{\n  'email': email,\n  'password': password,\n  'email_confirm': True,\n  'user_metadata': \\{'full_name': 'BG Homes Admin'\\},\n  'app_metadata': \\{'role': 'admin'\\}\n\\}\\)\\.encode\\(\\)\nreq=urllib\\.request\\.Request\\(base\\+'/auth/v1/admin/users', data=payload, method='POST', headers=\\{\n  'Content-Type':'application/json',\n  'Authorization':'Bearer '\\+service,\n  'apikey':service,\n\\}\\)\ntry:\n  with urllib\\.request\\.urlopen\\(req\\) as resp:\n    print\\(resp\\.read\\(\\)\\.decode\\(\\)\\)\nexcept urllib\\.error\\.HTTPError as e:\n  print\\('HTTP', e\\.code\\)\n  print\\(e\\.read\\(\\)\\.decode\\(\\)\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python3 - <<'PY'\nimport json, urllib\\.request, urllib\\.error\nbase='https://vwgkkpgjrudklrbbdrqf\\.supabase\\.co'\nservice='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3Z2trcGdqcnVka2xyYmJkcnFmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzE3NzQ1MCwiZXhwIjoyMDk4NzUzNDUwfQ\\.NRfyOLN_iXVgDcc7aXFO09UCHCx_gxlwIL4dGPS8lUc'\nemail='admin@bg-homes\\.local'\nreq=urllib\\.request\\.Request\\(base\\+'/auth/v1/admin/users\\?email='\\+email, headers=\\{\n  'Authorization':'Bearer '\\+service,\n  'apikey':service,\n\\}\\)\ntry:\n  with urllib\\.request\\.urlopen\\(req\\) as resp:\n    print\\(resp\\.read\\(\\)\\.decode\\(\\)\\)\nexcept urllib\\.error\\.HTTPError as e:\n  print\\('HTTP', e\\.code\\)\n  print\\(e\\.read\\(\\)\\.decode\\(\\)\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python3 - <<'PY'\nimport json, urllib\\.request, urllib\\.error\nbase='https://vwgkkpgjrudklrbbdrqf\\.supabase\\.co'\nservice='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3Z2trcGdqcnVka2xyYmJkcnFmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzE3NzQ1MCwiZXhwIjoyMDk4NzUzNDUwfQ\\.NRfyOLN_iXVgDcc7aXFO09UCHCx_gxlwIL4dGPS8lUc'\nuser_id='46bf97d6-f402-4424-89af-ba7eb2e439f9'\nreq=urllib\\.request\\.Request\\(base\\+'/rest/v1/profiles\\?id=eq\\.'\\+user_id\\+'&select=id,first_name,last_name,role,created_at,updated_at', headers=\\{\n  'Authorization':'Bearer '\\+service,\n  'apikey':service,\n  'Accept':'application/json',\n  'Prefer':'return=representation'\n\\}\\)\ntry:\n  with urllib\\.request\\.urlopen\\(req\\) as resp:\n    print\\(resp\\.read\\(\\)\\.decode\\(\\)\\)\nexcept urllib\\.error\\.HTTPError as e:\n  print\\('HTTP', e\\.code\\)\n  print\\(e\\.read\\(\\)\\.decode\\(\\)\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python3 - <<'PY'\nimport json, urllib\\.request, urllib\\.error\nbase='https://vwgkkpgjrudklrbbdrqf\\.supabase\\.co'\nservice='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3Z2trcGdqcnVka2xyYmJkcnFmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzE3NzQ1MCwiZXhwIjoyMDk4NzUzNDUwfQ\\.NRfyOLN_iXVgDcc7aXFO09UCHCx_gxlwIL4dGPS8lUc'\nuser_id='46bf97d6-f402-4424-89af-ba7eb2e439f9'\npayload=json\\.dumps\\(\\{'email_confirm': True, 'app_metadata': \\{'role': 'admin'\\}\\}\\)\\.encode\\(\\)\nreq=urllib\\.request\\.Request\\(base\\+'/auth/v1/admin/users/'\\+user_id, data=payload, method='PUT', headers=\\{\n  'Authorization':'Bearer '\\+service,\n  'apikey':service,\n  'Content-Type':'application/json',\n\\}\\)\ntry:\n  with urllib\\.request\\.urlopen\\(req\\) as resp:\n    print\\(resp\\.read\\(\\)\\.decode\\(\\)\\)\nexcept urllib\\.error\\.HTTPError as e:\n  print\\('HTTP', e\\.code\\)\n  print\\(e\\.read\\(\\)\\.decode\\(\\)\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     }
 }
