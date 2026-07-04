@@ -30,71 +30,76 @@ export function formatPrice(price, currency) {
   }
 
   try {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('bg-BG', {
       style: 'currency',
       currency: String(currency ?? 'EUR').toUpperCase(),
       maximumFractionDigits: 0,
     }).format(amount);
   } catch {
-    return `${amount.toLocaleString('en-US')} ${escapeHtml(currency ?? '')}`;
+    return `${amount.toLocaleString('bg-BG')} ${escapeHtml(currency ?? '')}`;
   }
 }
 
 export const transactionTypeLabels = {
-  sale: 'For sale',
-  rent: 'For rent',
+  sale: 'Продава',
+  rent: 'Отдава под наем',
 };
 
 export const propertyTypeLabels = {
-  apartment: 'Apartment',
-  house: 'House',
-  villa: 'Villa',
-  studio: 'Studio',
-  office: 'Office',
-  store: 'Store',
-  land: 'Land',
-  garage: 'Garage',
-  other: 'Other',
+  apartment: 'Апартамент',
+  house: 'Къща',
+  villa: 'Вила',
+  studio: 'Студио',
+  office: 'Офис',
+  store: 'Магазин',
+  land: 'Парцел',
+  garage: 'Гараж',
+  other: 'Друго',
 };
 
 export const constructionTypeLabels = {
-  brick: 'Brick',
-  panel: 'Panel',
-  epk: 'EPK',
-  tuf: 'TUF',
-  mixed: 'Mixed',
-  other: 'Other',
+  brick: 'Тухла',
+  panel: 'Панел',
+  epk: 'ЕПК',
+  tuf: 'ПК (ТУФ)',
+  mixed: 'Смесена',
+  other: 'Друго',
 };
 
 export const constructionStageLabels = {
-  project: 'Project',
-  rough_construction: 'Rough construction',
-  act_14: 'Act 14',
-  act_15: 'Act 15',
-  act_16: 'Act 16',
-  turnkey: 'Turnkey',
-  renovated: 'Renovated',
-  other: 'Other',
+  project: 'Проект',
+  rough_construction: 'Груб строеж',
+  act_14: 'Акт 14',
+  act_15: 'Акт 15',
+  act_16: 'Акт 16',
+  turnkey: 'Ново строителство',
+  renovated: 'Реновиран',
+  other: 'Друго',
 };
 
 export const heatingLabels = {
-  central: 'Central',
-  electric: 'Electric',
-  gas: 'Gas',
-  air_conditioning: 'Air conditioning',
-  pellet: 'Pellet',
-  wood: 'Wood',
-  other: 'Other',
+  central: 'Централно',
+  electric: 'Електричество',
+  gas: 'Газ',
+  air_conditioning: 'Климатик',
+  pellet: 'Пелети',
+  wood: 'Дърва',
+  other: 'Друго',
 };
 
 export const furnishingLabels = {
-  unfurnished: 'Unfurnished',
-  partially_furnished: 'Partially furnished',
-  furnished: 'Furnished',
+  unfurnished: 'Необзаведен',
+  partially_furnished: 'Частично обзаведен',
+  furnished: 'Обзаведен',
 };
 
 export const statusLabels = {
-  active: 'Published',
-  archived: 'Unpublished',
-  sold: 'Sold',
+  active: 'Публикуван',
+  archived: 'Скрит',
+  sold: 'Продаден',
+};
+
+export const currencyLabels = {
+  EUR: 'EUR',
+  USD: 'USD',
 };
