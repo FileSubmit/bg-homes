@@ -1,0 +1,29 @@
+{
+  "name": "bg-homes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FileSubmit/bg-homes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/FileSubmit/bg-homes/issues"
+  },
+  "homepage": "https://github.com/FileSubmit/bg-homes#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.5.2",
+    "postcss": "^8.5.16",
+    "tailwindcss": "^3.4.17",
+    "vite": "^8.1.3"
+  }
+}

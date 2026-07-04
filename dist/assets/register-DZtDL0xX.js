@@ -1,0 +1,12 @@
+function e(){return`<section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+    <h1 class="text-3xl font-bold tracking-tight text-slate-900">Register</h1>
+    <p class="mt-3 text-slate-600">Create an account to publish and save properties.</p>
+    <form class="mt-8 space-y-5">
+      <input class="w-full rounded-2xl border border-slate-300 px-4 py-3" type="text" placeholder="Full name" />
+      <input class="w-full rounded-2xl border border-slate-300 px-4 py-3" type="email" placeholder="Email address" />
+      <input class="w-full rounded-2xl border border-slate-300 px-4 py-3" type="password" placeholder="Password" />
+      <button class="rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white" type="submit">Create account</button>
+    </form>
+  </div>
+</section>`}export{e as render};
