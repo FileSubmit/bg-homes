@@ -1,0 +1,186 @@
+<section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Listings</p>
+    <h1 data-form-title class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Add property</h1>
+    <p data-form-subtitle class="mt-3 text-slate-600">Fill in the details below to publish your property listing.</p>
+    <div data-property-message class="hidden"></div>
+    <form data-property-form class="mt-8 space-y-8" novalidate>
+      <fieldset class="space-y-5">
+        <legend class="text-lg font-semibold text-slate-900">Basic information</legend>
+        <label class="block space-y-2">
+          <span class="text-sm font-medium text-slate-700">Title <span class="text-rose-500">*</span></span>
+          <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="title" type="text" maxlength="200" placeholder="Bright three-bedroom apartment" required />
+        </label>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Transaction <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="transaction_type" required>
+              <option value="">Select…</option>
+              <option value="sale">For sale</option>
+              <option value="rent">For rent</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Property type <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="property_type" required>
+              <option value="">Select…</option>
+              <option value="apartment">Apartment</option>
+              <option value="house">House</option>
+              <option value="villa">Villa</option>
+              <option value="studio">Studio</option>
+              <option value="office">Office</option>
+              <option value="store">Store</option>
+              <option value="land">Land</option>
+              <option value="garage">Garage</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Price <span class="text-rose-500">*</span></span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="price" type="number" min="0" step="0.01" placeholder="250000" required />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Currency <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="currency" required>
+              <option value="EUR">EUR</option>
+              <option value="BGN">BGN</option>
+              <option value="USD">USD</option>
+            </select>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="space-y-5">
+        <legend class="text-lg font-semibold text-slate-900">Location</legend>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Region <span class="text-rose-500">*</span></span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="region" type="text" maxlength="120" placeholder="Sofia" required />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">City <span class="text-rose-500">*</span></span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="city" type="text" maxlength="120" placeholder="Sofia" required />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Neighborhood</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="neighborhood" type="text" maxlength="120" placeholder="Lozenets" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Address <span class="text-rose-500">*</span></span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="address" type="text" maxlength="200" placeholder="12 Example Street" required />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="space-y-5">
+        <legend class="text-lg font-semibold text-slate-900">Size &amp; layout</legend>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Net area (m²)</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="net_area" type="number" min="1" step="0.01" placeholder="85" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Gross area (m²)</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="gross_area" type="number" min="1" step="0.01" placeholder="98" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Bedrooms</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="bedrooms" type="number" min="0" max="100" step="1" placeholder="2" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Bathrooms</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="bathrooms" type="number" min="0" max="100" step="0.5" placeholder="1" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Floor</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="floor" type="number" min="-5" max="200" step="1" placeholder="3" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Total floors</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="total_floors" type="number" min="1" max="200" step="1" placeholder="6" />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="space-y-5">
+        <legend class="text-lg font-semibold text-slate-900">Construction &amp; comfort</legend>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Construction type</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="construction_type">
+              <option value="">Select…</option>
+              <option value="brick">Brick</option>
+              <option value="panel">Panel</option>
+              <option value="epk">EPK</option>
+              <option value="tuf">TUF</option>
+              <option value="mixed">Mixed</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Construction year</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="construction_year" type="number" min="1800" step="1" placeholder="2010" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Construction stage</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="construction_stage">
+              <option value="">Select…</option>
+              <option value="project">Project</option>
+              <option value="rough_construction">Rough construction</option>
+              <option value="act_14">Act 14</option>
+              <option value="act_15">Act 15</option>
+              <option value="act_16">Act 16</option>
+              <option value="turnkey">Turnkey</option>
+              <option value="renovated">Renovated</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Heating</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="heating">
+              <option value="">Select…</option>
+              <option value="central">Central</option>
+              <option value="electric">Electric</option>
+              <option value="gas">Gas</option>
+              <option value="air_conditioning">Air conditioning</option>
+              <option value="pellet">Pellet</option>
+              <option value="wood">Wood</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Furnishing</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="furnishing">
+              <option value="">Select…</option>
+              <option value="unfurnished">Unfurnished</option>
+              <option value="partially_furnished">Partially furnished</option>
+              <option value="furnished">Furnished</option>
+            </select>
+          </label>
+        </div>
+        <div data-features-section class="hidden space-y-3">
+          <span class="text-sm font-medium text-slate-700">Features</span>
+          <div data-features-list class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="space-y-5">
+        <legend class="text-lg font-semibold text-slate-900">Description &amp; photos</legend>
+        <label class="block space-y-2">
+          <span class="text-sm font-medium text-slate-700">Description</span>
+          <textarea class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="description" rows="5" maxlength="5000" placeholder="Describe the property…"></textarea>
+        </label>
+        <label class="block space-y-2">
+          <span class="text-sm font-medium text-slate-700">Photo URLs</span>
+          <textarea class="w-full rounded-2xl border border-slate-300 px-4 py-3 font-mono text-sm outline-none transition focus:border-slate-900" name="photos" rows="4" placeholder="https://example.com/photo-1.jpg&#10;https://example.com/photo-2.jpg"></textarea>
+          <span class="block text-xs text-slate-500">One http(s) image URL per line, up to 10. The first one is used as the cover photo.</span>
+        </label>
+      </fieldset>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <button data-property-submit class="rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60" type="submit">Publish listing</button>
+        <a data-property-cancel class="text-sm font-medium text-slate-600 transition hover:text-slate-900" href="/properties">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

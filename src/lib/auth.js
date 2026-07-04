@@ -74,6 +74,8 @@ function splitName(fullName) {
   };
 }
 
+const PROFILE_COLUMNS = 'id, first_name, last_name, phone, role, created_at, updated_at';
+
 async function loadProfile(userId) {
   if (!supabase) {
     return null;
@@ -81,9 +83,40 @@ async function loadProfile(userId) {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, first_name, last_name, phone, role, created_at, updated_at')
+    .select(PROFILE_COLUMNS)
     .eq('id', userId)
     .maybeSingle();
+
+  if (error) {
+    return null;
+  }
+
+  return data;
+}
+
+// The on_auth_user_created DB trigger normally creates the profile row. If it
+// is missing (e.g. the trigger migration is not applied yet), create it from
+// the client — RLS only allows inserting your own row with role 'user'.
+async function ensureProfile(user) {
+  const existing = await loadProfile(user.id);
+
+  if (existing) {
+    return existing;
+  }
+
+  const metadata = user.user_metadata ?? {};
+  const fallback = splitName(metadata.full_name ?? user.email?.split('@')[0] ?? '');
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .insert({
+      id: user.id,
+      first_name: metadata.first_name?.trim() || fallback.firstName,
+      last_name: metadata.last_name?.trim() || fallback.lastName,
+      phone: metadata.phone?.trim() || null,
+    })
+    .select(PROFILE_COLUMNS)
+    .single();
 
   if (error) {
     return null;
@@ -110,7 +143,7 @@ async function refreshAuthState() {
 
   const { data, error } = await supabase.auth.getUser();
   const user = error ? null : data.user;
-  const profile = user ? await loadProfile(user.id) : null;
+  const profile = user ? await ensureProfile(user) : null;
 
   setState({
     loading: false,
@@ -225,6 +258,47 @@ export async function requestPasswordReset(email) {
   });
 }
 
+export async function updateProfile({ firstName, lastName, phone }) {
+  if (!supabase) {
+    return { error: new Error('Supabase is not configured.') };
+  }
+
+  if (!state.user) {
+    return { error: new Error('You must be signed in.') };
+  }
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({
+      first_name: firstName,
+      last_name: lastName,
+      phone: phone || null,
+    })
+    .eq('id', state.user.id)
+    .select('id')
+    .maybeSingle();
+
+  if (error) {
+    return { error };
+  }
+
+  if (!data) {
+    return { error: new Error('Could not update your profile.') };
+  }
+
+  await refreshAuthState();
+
+  return { data };
+}
+
+export async function updateEmail(email) {
+  if (!supabase) {
+    return { error: new Error('Supabase is not configured.') };
+  }
+
+  return supabase.auth.updateUser({ email });
+}
+
 export async function updatePassword(password) {
   if (!supabase) {
     return { error: new Error('Supabase is not configured.') };
@@ -248,5 +322,10 @@ export function getNextPath() {
   const searchParams = new URLSearchParams(window.location.search);
   const nextPath = searchParams.get('next');
 
-  return nextPath && nextPath.startsWith('/') ? nextPath : '/';
+  // Only same-origin absolute paths: reject protocol-relative ("//host") and backslash tricks.
+  if (!nextPath || !nextPath.startsWith('/') || nextPath.startsWith('//') || nextPath.includes('\\')) {
+    return '/';
+  }
+
+  return nextPath;
 }

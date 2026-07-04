@@ -1,35 +1,149 @@
 import template from './property-details.html?raw';
-import { findPropertyById } from '../../data/properties.js';
+import {
+  constructionStageLabels,
+  constructionTypeLabels,
+  escapeHtml,
+  formatPrice,
+  furnishingLabels,
+  heatingLabels,
+  propertyTypeLabels,
+  sanitizeUrl,
+  statusLabels,
+  transactionTypeLabels,
+} from '../../lib/format.js';
+import { fetchFeatures, fetchPropertyById, sortedPhotos } from '../../lib/properties.js';
 
-function propertyDetailsMarkup(property, id) {
-  if (!property) {
-    return `
-      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Property</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Property ${id} not found</h1>
-      <p class="mt-4 text-slate-600">This route is ready for property detail data from Supabase later on.</p>
-    `;
+function notFoundMarkup() {
+  return `
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Property</p>
+    <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Property not found</h1>
+    <p class="mt-4 text-slate-600">This listing does not exist or is no longer available.</p>
+    <a class="mt-8 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white" href="/properties">Back to properties</a>
+  `;
+}
+
+function factTile(label, value) {
+  if (value === null || value === undefined || value === '') {
+    return '';
   }
 
   return `
-    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Property ${property.id}</p>
-    <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900">${property.title}</h1>
-    <p class="mt-3 text-lg text-slate-600">${property.city} · ${property.type}</p>
-    <div class="mt-8 grid gap-4 sm:grid-cols-3">
-      <div class="rounded-2xl bg-slate-50 p-4">
-        <p class="text-sm text-slate-500">Price</p>
-        <p class="mt-2 text-xl font-semibold text-slate-900">${property.price}</p>
-      </div>
-      <div class="rounded-2xl bg-slate-50 p-4">
-        <p class="text-sm text-slate-500">Rooms</p>
-        <p class="mt-2 text-xl font-semibold text-slate-900">${property.rooms}</p>
-      </div>
-      <div class="rounded-2xl bg-slate-50 p-4">
-        <p class="text-sm text-slate-500">Area</p>
-        <p class="mt-2 text-xl font-semibold text-slate-900">${property.area}</p>
-      </div>
+    <div class="rounded-2xl bg-slate-50 p-4">
+      <p class="text-sm text-slate-500">${escapeHtml(label)}</p>
+      <p class="mt-2 text-lg font-semibold text-slate-900">${escapeHtml(value)}</p>
     </div>
-    <p class="mt-8 max-w-3xl text-base leading-8 text-slate-600">${property.description}</p>
-    <a class="mt-8 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white" href="/properties">Back to properties</a>
+  `;
+}
+
+function photosMarkup(property) {
+  const photos = sortedPhotos(property)
+    .map((photo) => sanitizeUrl(photo.photo_url))
+    .filter(Boolean);
+
+  if (photos.length === 0) {
+    return '';
+  }
+
+  return `
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      ${photos
+        .map(
+          (photoUrl, index) => `
+            <img
+              src="${escapeHtml(photoUrl)}"
+              alt="${escapeHtml(property.title)} photo ${index + 1}"
+              class="${index === 0 ? 'sm:col-span-2 h-80' : 'h-56'} w-full rounded-2xl object-cover"
+              loading="lazy"
+            />
+          `,
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function featuresMarkup(property, featureNamesById) {
+  const names = (property.property_features ?? [])
+    .map((row) => featureNamesById.get(row.feature_id))
+    .filter(Boolean);
+
+  if (names.length === 0) {
+    return '';
+  }
+
+  return `
+    <div class="mt-8">
+      <h2 class="text-lg font-semibold text-slate-900">Features</h2>
+      <ul class="mt-3 flex flex-wrap gap-2">
+        ${names
+          .map(
+            (name) => `
+              <li class="rounded-full bg-emerald-50 px-4 py-1.5 text-sm font-medium text-emerald-700">${escapeHtml(name)}</li>
+            `,
+          )
+          .join('')}
+      </ul>
+    </div>
+  `;
+}
+
+function propertyDetailsMarkup(property, featureNamesById, authState) {
+  const isOwner = Boolean(authState?.user) && property.owner_id === authState.user.id;
+  const canManage = isOwner || Boolean(authState?.isAdmin);
+  const location = [property.address, property.neighborhood, property.city, property.region]
+    .filter(Boolean)
+    .map(escapeHtml)
+    .join(', ');
+
+  const statusBadge = property.status !== 'active'
+    ? `<span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">${escapeHtml(statusLabels[property.status] ?? property.status)}</span>`
+    : '';
+
+  const manageActions = canManage
+    ? `
+      <div class="mt-8 flex flex-wrap gap-3 rounded-2xl bg-slate-50 p-4">
+        <span class="w-full text-sm font-medium text-slate-500">You manage this listing</span>
+        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Edit listing</a>
+        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/profile">Manage in profile</a>
+      </div>
+    `
+    : '';
+
+  return `
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+        ${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)}
+      </span>
+      <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+        ${escapeHtml(propertyTypeLabels[property.property_type] ?? property.property_type)}
+      </span>
+      ${statusBadge}
+    </div>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-900">${escapeHtml(property.title)}</h1>
+    <p class="mt-3 text-lg text-slate-600">${location}</p>
+    <p class="mt-6 text-4xl font-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
+    ${photosMarkup(property)}
+    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+      ${factTile('Net area', property.net_area ? `${property.net_area} m²` : null)}
+      ${factTile('Gross area', property.gross_area ? `${property.gross_area} m²` : null)}
+      ${factTile('Bedrooms', property.bedrooms)}
+      ${factTile('Bathrooms', property.bathrooms)}
+      ${factTile('Floor', property.floor !== null && property.total_floors ? `${property.floor} of ${property.total_floors}` : property.floor)}
+      ${factTile('Construction', constructionTypeLabels[property.construction_type])}
+      ${factTile('Year built', property.construction_year)}
+      ${factTile('Stage', constructionStageLabels[property.construction_stage])}
+      ${factTile('Heating', heatingLabels[property.heating])}
+      ${factTile('Furnishing', furnishingLabels[property.furnishing])}
+    </div>
+    ${featuresMarkup(property, featureNamesById)}
+    ${property.description ? `
+      <div class="mt-8">
+        <h2 class="text-lg font-semibold text-slate-900">Description</h2>
+        <p class="mt-3 max-w-3xl whitespace-pre-line text-base leading-8 text-slate-600">${escapeHtml(property.description)}</p>
+      </div>
+    ` : ''}
+    ${manageActions}
+    <a class="mt-10 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Back to properties</a>
   `;
 }
 
@@ -37,11 +151,28 @@ export function render() {
   return template;
 }
 
-export function hydrate(root, params) {
+export function hydrate(root, params, { authState } = {}) {
   const details = root.querySelector('[data-property-details]');
-  const property = findPropertyById(params.id);
 
-  if (details) {
-    details.innerHTML = propertyDetailsMarkup(property, params.id);
+  if (!details) {
+    return;
   }
+
+  details.innerHTML = '<p class="text-slate-500">Loading listing…</p>';
+
+  void (async () => {
+    const [{ data: property, error }, { data: features }] = await Promise.all([
+      fetchPropertyById(params.id),
+      fetchFeatures(),
+    ]);
+
+    if (error || !property) {
+      details.innerHTML = notFoundMarkup();
+      return;
+    }
+
+    const featureNamesById = new Map(features.map((feature) => [feature.id, feature.name]));
+
+    details.innerHTML = propertyDetailsMarkup(property, featureNamesById, authState);
+  })();
 }

@@ -1,13 +1,5 @@
 import { getAuthLabel, getAuthState, signOut } from '../../lib/auth.js';
-
-function escapeHtml(value) {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
-}
+import { escapeHtml } from '../../lib/format.js';
 
 function navLink(href, label, pathname) {
   const isActive = href === pathname || (href === '/properties' && pathname.startsWith('/properties/'));
@@ -36,6 +28,8 @@ function authLinks(authState, pathname) {
   const greeting = escapeHtml(getAuthLabel());
 
   return `
+    ${navLink('/add-property', 'Add property', pathname)}
+    ${navLink('/profile', 'Profile', pathname)}
     <span class="text-sm font-medium text-slate-500">Hi, ${greeting}</span>
     <button
       type="button"

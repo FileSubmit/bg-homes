@@ -32,9 +32,24 @@ const routeMatchers = [
     load: () => import('./pages/properties/properties.js'),
   },
   {
+    title: 'Add property',
+    test: (pathname) => pathname === '/add-property',
+    load: () => import('./pages/add-property/add-property.js'),
+  },
+  {
+    title: 'Edit property',
+    test: (pathname) => /^\/properties\/[^/]+\/edit$/.test(pathname),
+    load: () => import('./pages/add-property/add-property.js'),
+  },
+  {
     title: 'Property details',
     test: (pathname) => /^\/properties\/[^/]+$/.test(pathname),
     load: () => import('./pages/property-details/property-details.js'),
+  },
+  {
+    title: 'Profile',
+    test: (pathname) => pathname === '/profile',
+    load: () => import('./pages/profile/profile.js'),
   },
   {
     title: 'Admin',
@@ -42,6 +57,17 @@ const routeMatchers = [
     load: () => import('./pages/admin/admin.js'),
   },
 ];
+
+const authRequiredPatterns = [
+  /^\/admin$/,
+  /^\/add-property$/,
+  /^\/profile$/,
+  /^\/properties\/[^/]+\/edit$/,
+];
+
+function requiresAuth(pathname) {
+  return authRequiredPatterns.some((pattern) => pattern.test(pathname));
+}
 
 const notFoundRoute = {
   title: 'Page not found',
@@ -53,7 +79,7 @@ function matchRoute(pathname) {
 }
 
 function getRouteParams(pathname) {
-  const propertyMatch = pathname.match(/^\/properties\/([^/]+)$/);
+  const propertyMatch = pathname.match(/^\/properties\/([^/]+)(?:\/edit)?$/);
 
   if (propertyMatch) {
     return { id: propertyMatch[1] };
@@ -72,13 +98,13 @@ async function renderRoute(pageSlot, onRouteChange) {
   const pathname = window.location.pathname;
   const authState = await getAuthState();
 
-  if (pathname === '/admin') {
+  if (requiresAuth(pathname)) {
     if (!authState.user) {
-      await navigate(`/login?next=${encodeURIComponent('/admin')}`);
+      await navigate(`/login?next=${encodeURIComponent(pathname)}`);
       return;
     }
 
-    if (!authState.isAdmin) {
+    if (pathname === '/admin' && !authState.isAdmin) {
       pageSlot.innerHTML = `
         <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
           <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">

@@ -47,8 +47,20 @@ export async function bootstrapApp() {
     },
   });
 
-  subscribeAuthState(() => {
+  const authKey = (snapshot) => `${snapshot.user?.id ?? ''}:${snapshot.isAdmin}:${snapshot.recoveryMode}`;
+  let lastAuthKey = authKey(getAuthState());
+
+  subscribeAuthState((snapshot) => {
     renderShellHeader();
-    router.refresh();
+
+    // Re-render the page only when the identity actually changes (sign in/out,
+    // role, recovery mode) — not on every profile refresh, which would wipe
+    // in-page form state and messages.
+    const key = authKey(snapshot);
+
+    if (key !== lastAuthKey) {
+      lastAuthKey = key;
+      router.refresh();
+    }
   });
 }

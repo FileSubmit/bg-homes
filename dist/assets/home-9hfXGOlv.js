@@ -1,9 +1,0 @@
-function e(){return`<section class="mx-auto flex max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
-  <div class="rounded-3xl bg-white p-10 shadow-sm ring-1 ring-slate-200 sm:p-14">
-    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">BG Homes</p>
-    <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Welcome to BG Homes!</h1>
-    <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-      Explore a modern real estate platform scaffold with clean routing, reusable fragments, and Tailwind styling.
-    </p>
-  </div>
-</section>`}export{e as render};
