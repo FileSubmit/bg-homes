@@ -43,17 +43,81 @@ export function sortedPhotos(property) {
   return [...(property?.property_photos ?? [])].sort((a, b) => a.display_order - b.display_order);
 }
 
-export async function fetchActiveProperties({ limit } = {}) {
+function matchesFilters(property, filters) {
+  const {
+    q,
+    transactionType,
+    propertyType,
+    region,
+    city,
+    neighborhood,
+    minPrice,
+    maxPrice,
+    minArea,
+    maxArea,
+    minBedrooms,
+    minBathrooms,
+    minFloor,
+    maxFloor,
+    constructionType,
+    constructionStage,
+    heating,
+    furnishing,
+  } = filters;
+
+  if (q && !property.title?.toLowerCase().includes(q.toLowerCase())) return false;
+  if (transactionType && property.transaction_type !== transactionType) return false;
+  if (propertyType && property.property_type !== propertyType) return false;
+  if (region && property.region !== region) return false;
+  if (city && property.city !== city) return false;
+  if (neighborhood && property.neighborhood !== neighborhood) return false;
+  if (minPrice != null && !(property.price >= minPrice)) return false;
+  if (maxPrice != null && !(property.price <= maxPrice)) return false;
+  if (minArea != null && !(property.net_area >= minArea)) return false;
+  if (maxArea != null && !(property.net_area <= maxArea)) return false;
+  if (minBedrooms != null && !(property.bedrooms >= minBedrooms)) return false;
+  if (minBathrooms != null && !(property.bathrooms >= minBathrooms)) return false;
+  if (minFloor != null && !(property.floor >= minFloor)) return false;
+  if (maxFloor != null && !(property.floor <= maxFloor)) return false;
+  if (constructionType && property.construction_type !== constructionType) return false;
+  if (constructionStage && property.construction_stage !== constructionStage) return false;
+  if (heating && property.heating !== heating) return false;
+  if (furnishing && property.furnishing !== furnishing) return false;
+
+  return true;
+}
+
+export async function fetchActiveProperties(filters = {}) {
+  const { limit } = filters;
+
   if (!supabase) {
-    const data = limit ? sampleProperties.slice(0, limit) : sampleProperties;
+    let data = sampleProperties.filter((property) => matchesFilters(property, filters));
+    data = limit ? data.slice(0, limit) : data;
     return { data, error: null };
   }
 
-  let query = supabase
-    .from('properties')
-    .select(PROPERTY_SELECT)
-    .eq('status', 'active')
-    .order('created_at', { ascending: false });
+  let query = supabase.from('properties').select(PROPERTY_SELECT).eq('status', 'active');
+
+  if (filters.q) query = query.ilike('title', `%${filters.q.trim()}%`);
+  if (filters.transactionType) query = query.eq('transaction_type', filters.transactionType);
+  if (filters.propertyType) query = query.eq('property_type', filters.propertyType);
+  if (filters.region) query = query.eq('region', filters.region);
+  if (filters.city) query = query.eq('city', filters.city);
+  if (filters.neighborhood) query = query.eq('neighborhood', filters.neighborhood);
+  if (filters.minPrice != null) query = query.gte('price', filters.minPrice);
+  if (filters.maxPrice != null) query = query.lte('price', filters.maxPrice);
+  if (filters.minArea != null) query = query.gte('net_area', filters.minArea);
+  if (filters.maxArea != null) query = query.lte('net_area', filters.maxArea);
+  if (filters.minBedrooms != null) query = query.gte('bedrooms', filters.minBedrooms);
+  if (filters.minBathrooms != null) query = query.gte('bathrooms', filters.minBathrooms);
+  if (filters.minFloor != null) query = query.gte('floor', filters.minFloor);
+  if (filters.maxFloor != null) query = query.lte('floor', filters.maxFloor);
+  if (filters.constructionType) query = query.eq('construction_type', filters.constructionType);
+  if (filters.constructionStage) query = query.eq('construction_stage', filters.constructionStage);
+  if (filters.heating) query = query.eq('heating', filters.heating);
+  if (filters.furnishing) query = query.eq('furnishing', filters.furnishing);
+
+  query = query.order('created_at', { ascending: false });
 
   if (limit) {
     query = query.limit(limit);
@@ -71,7 +135,7 @@ export async function fetchPropertyById(id) {
 
   const { data, error } = await supabase
     .from('properties')
-    .select(`${PROPERTY_SELECT}, property_features (feature_id)`)
+    .select(`${PROPERTY_SELECT}, property_features (feature_id), owner:profiles!properties_owner_id_fkey (first_name, last_name, phone, email)`)
     .eq('id', id)
     .maybeSingle();
 

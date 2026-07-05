@@ -87,6 +87,31 @@ function featuresMarkup(property, featureNamesById) {
   `;
 }
 
+function contactCardMarkup(property) {
+  const owner = property.owner;
+  const name = [owner?.first_name, owner?.last_name].filter(Boolean).map(escapeHtml).join(' ');
+
+  if (!owner || !name) {
+    return '';
+  }
+
+  const phone = owner.phone
+    ? `<a class="mt-1 block text-slate-600 transition hover:text-slate-900" href="tel:${escapeHtml(owner.phone)}">${escapeHtml(owner.phone)}</a>`
+    : '';
+  const email = owner.email
+    ? `<a class="mt-1 block text-slate-600 transition hover:text-slate-900" href="mailto:${escapeHtml(owner.email)}">${escapeHtml(owner.email)}</a>`
+    : '';
+
+  return `
+    <div class="mt-8 rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200">
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">За контакт</p>
+      <p class="mt-2 text-lg font-semibold text-slate-900">${name}</p>
+      ${phone}
+      ${email}
+    </div>
+  `;
+}
+
 function propertyDetailsMarkup(property, featureNamesById, authState) {
   const isOwner = Boolean(authState?.user) && property.owner_id === authState.user.id;
   const canManage = isOwner || Boolean(authState?.isAdmin);
@@ -142,6 +167,7 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
         <p class="mt-3 max-w-3xl whitespace-pre-line text-base leading-8 text-slate-600">${escapeHtml(property.description)}</p>
       </div>
     ` : ''}
+    ${isOwner ? '' : contactCardMarkup(property)}
     ${manageActions}
     <a class="mt-10 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Обратно към имотите</a>
   `;
