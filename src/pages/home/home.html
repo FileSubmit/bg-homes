@@ -1,16 +1,129 @@
-<section class="mx-auto flex max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
-  <div class="w-full rounded-3xl bg-white p-10 shadow-sm ring-1 ring-slate-200 sm:p-14">
-    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">BG Homes</p>
-    <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Добре дошли в BG Homes!</h1>
-    <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-      Разгледайте последните обяви за имоти за продажба и под наем в цяла България или публикувайте своя за минути.
+<section class="relative isolate overflow-hidden bg-slate-900">
+  <img
+    src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1920"
+    alt=""
+    class="absolute inset-0 h-full w-full object-cover"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-28 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-400">BG Homes</p>
+    <h1 class="mt-4 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      Намерете своя следващ дом
+    </h1>
+    <p class="mt-4 max-w-xl text-lg leading-8 text-slate-200">
+      Хиляди обяви за продажба и под наем в цяла България. Търсете по тип имот, локация и бюджет — за секунди.
     </p>
-    <div class="mt-8 flex flex-wrap gap-4">
-      <a class="inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Разгледай имотите</a>
-      <a class="inline-flex rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/add-property">Добави своя имот</a>
-    </div>
+
+    <form data-hero-search class="mt-8 rounded-3xl bg-white p-4 shadow-xl sm:p-5">
+      <div data-transaction-toggle class="flex flex-wrap gap-2">
+        <button type="button" data-transaction-value="" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition">Всички</button>
+        <button type="button" data-transaction-value="sale" class="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-200">Продава</button>
+        <button type="button" data-transaction-value="rent" class="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-200">Под наем</button>
+      </div>
+
+      <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <input
+          type="text"
+          name="q"
+          placeholder="Ключова дума…"
+          class="rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900"
+        />
+        <select name="property_type" data-hero-property-type class="rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900"></select>
+        <select name="region" data-hero-region class="rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900"></select>
+        <button type="submit" class="rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
+          Търси имоти
+        </button>
+      </div>
+    </form>
   </div>
 </section>
+
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+  <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Категории</p>
+  <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Разгледайте по тип имот</h2>
+
+  <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <a href="/properties?property_type=apartment" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Апартаменти</span>
+    </a>
+    <a href="/properties?property_type=house" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/209274/pexels-photo-209274.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Къщи</span>
+    </a>
+    <a href="/properties?property_type=villa" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Вили</span>
+    </a>
+    <a href="/properties?property_type=studio" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Студия</span>
+    </a>
+    <a href="/properties?property_type=office" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Офиси</span>
+    </a>
+    <a href="/properties?property_type=store" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/1005638/pexels-photo-1005638.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Магазини</span>
+    </a>
+    <a href="/properties?property_type=land" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Парцели</span>
+    </a>
+    <a href="/properties?property_type=garage" class="group relative flex h-36 items-end overflow-hidden rounded-2xl sm:h-40">
+      <img src="https://images.pexels.com/photos/2062432/pexels-photo-2062432.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent"></div>
+      <span class="relative z-10 p-4 text-base font-semibold text-white">Гаражи</span>
+    </a>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+  <div class="grid gap-6 sm:grid-cols-2">
+    <a href="/properties?transaction_type=sale" class="group relative flex h-72 items-end overflow-hidden rounded-3xl">
+      <img
+        src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
+      <div class="relative z-10 p-8">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Купувам</p>
+        <h3 class="mt-2 text-2xl font-bold text-white">Имоти за продажба</h3>
+        <span class="mt-5 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition group-hover:bg-emerald-50">
+          Разгледай обявите →
+        </span>
+      </div>
+    </a>
+    <a href="/properties?transaction_type=rent" class="group relative flex h-72 items-end overflow-hidden rounded-3xl">
+      <img
+        src="https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
+      <div class="relative z-10 p-8">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">Наемам</p>
+        <h3 class="mt-2 text-2xl font-bold text-white">Имоти под наем</h3>
+        <span class="mt-5 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition group-hover:bg-emerald-50">
+          Разгледай обявите →
+        </span>
+      </div>
+    </a>
+  </div>
+</section>
+
 <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
   <div class="flex items-end justify-between gap-4">
     <div>
@@ -21,5 +134,46 @@
   </div>
   <div data-latest-grid class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
     <p class="text-slate-500">Зареждане на обявите…</p>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+  <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-12">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Защо BG Homes</p>
+    <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Лесно и прозрачно купуване, наемане и продаване</h2>
+    <div class="mt-10 grid gap-8 sm:grid-cols-3">
+      <div>
+        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-700">1</div>
+        <h3 class="mt-4 text-lg font-semibold text-slate-900">Проверени обяви</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-600">Всеки имот минава преглед, преди да се появи в резултатите от търсенето.</p>
+      </div>
+      <div>
+        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-700">2</div>
+        <h3 class="mt-4 text-lg font-semibold text-slate-900">Директен контакт</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-600">Свързвате се направо със собственика — без посредници и скрити такси.</p>
+      </div>
+      <div>
+        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-700">3</div>
+        <h3 class="mt-4 text-lg font-semibold text-slate-900">Публикувай за минути</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-600">Добавете снимки и детайли за имота си бързо, директно от профила си.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+  <div class="flex flex-col items-start gap-6 rounded-3xl bg-slate-900 p-10 sm:flex-row sm:items-center sm:justify-between sm:p-14">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-400">Продавате или отдавате?</p>
+      <h2 class="mt-3 max-w-lg text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        Добавете своя имот безплатно и достигнете хиляди купувачи
+      </h2>
+    </div>
+    <a
+      href="/add-property"
+      class="inline-flex shrink-0 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-emerald-50"
+    >
+      Добави своя имот
+    </a>
   </div>
 </section>

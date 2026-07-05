@@ -147,6 +147,52 @@ function debounce(fn, delay) {
   };
 }
 
+const SIMPLE_FILTER_FIELDS = [
+  'q',
+  'transaction_type',
+  'property_type',
+  'construction_type',
+  'construction_stage',
+  'heating',
+  'furnishing',
+  'min_price',
+  'max_price',
+  'min_area',
+  'max_area',
+  'min_bedrooms',
+  'min_bathrooms',
+  'min_floor',
+  'max_floor',
+];
+
+function applyIncomingFilters(root, form) {
+  const params = new URLSearchParams(window.location.search);
+
+  if ([...params.keys()].length === 0) {
+    return;
+  }
+
+  SIMPLE_FILTER_FIELDS.forEach((name) => {
+    const value = params.get(name);
+    const field = form.elements.namedItem(name);
+
+    if (value && field) {
+      field.value = value;
+    }
+  });
+
+  const region = params.get('region');
+
+  if (region) {
+    const field = form.elements.namedItem('region');
+
+    if (field) {
+      field.value = region;
+      onRegionChange(root);
+    }
+  }
+}
+
 export function hydrate(root) {
   const grid = root.querySelector('[data-properties-grid]');
   const form = root.querySelector('[data-filters-form]');
@@ -157,6 +203,7 @@ export function hydrate(root) {
   }
 
   populateFilterSelects(root);
+  applyIncomingFilters(root, form);
 
   const runSearch = async () => {
     grid.innerHTML = '<p class="text-slate-500">Зареждане на обявите…</p>';
