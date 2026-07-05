@@ -56,6 +56,21 @@ const routeMatchers = [
     test: (pathname) => pathname === '/admin',
     load: () => import('./pages/admin/admin.js'),
   },
+  {
+    title: 'Общи условия',
+    test: (pathname) => pathname === '/terms',
+    load: () => import('./pages/terms/terms.js'),
+  },
+  {
+    title: 'Политика за лични данни',
+    test: (pathname) => pathname === '/privacy',
+    load: () => import('./pages/privacy/privacy.js'),
+  },
+  {
+    title: 'Политика за бисквитки',
+    test: (pathname) => pathname === '/cookies',
+    load: () => import('./pages/cookies/cookies.js'),
+  },
 ];
 
 const authRequiredPatterns = [
