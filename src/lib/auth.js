@@ -53,7 +53,7 @@ function getDisplayName(user, profile) {
     return userName;
   }
 
-  return user?.email?.split('@')[0] ?? 'User';
+  return user?.email?.split('@')[0] ?? 'Потребител';
 }
 
 function splitName(fullName) {
@@ -61,16 +61,16 @@ function splitName(fullName) {
 
   if (!trimmed) {
     return {
-      firstName: 'User',
-      lastName: 'Member',
+      firstName: 'Потребител',
+      lastName: 'Член',
     };
   }
 
   const [firstName, ...rest] = trimmed.split(' ');
 
   return {
-    firstName: firstName || 'User',
-    lastName: rest.length > 0 ? rest.join(' ') : 'Member',
+    firstName: firstName || 'Потребител',
+    lastName: rest.length > 0 ? rest.join(' ') : 'Член',
   };
 }
 
@@ -133,7 +133,7 @@ async function refreshAuthState() {
       user: null,
       profile: null,
       isAdmin: false,
-      error: 'Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to enable auth.',
+      error: 'Задайте VITE_SUPABASE_URL и VITE_SUPABASE_ANON_KEY, за да включите оторизацията.',
     });
 
     return cloneState();
@@ -205,7 +205,7 @@ export function getAuthLabel() {
 
 export async function signInWithPassword(email, password) {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -221,7 +221,7 @@ export async function signInWithPassword(email, password) {
 
 export async function signUpWithPassword({ fullName, email, password }) {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { firstName, lastName } = splitName(fullName);
@@ -250,7 +250,7 @@ export async function signUpWithPassword({ fullName, email, password }) {
 
 export async function requestPasswordReset(email) {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   return supabase.auth.resetPasswordForEmail(email, {
@@ -260,11 +260,11 @@ export async function requestPasswordReset(email) {
 
 export async function updateProfile({ firstName, lastName, phone }) {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   if (!state.user) {
-    return { error: new Error('You must be signed in.') };
+    return { error: new Error('Трябва да сте влезли в профила си.') };
   }
 
   const { data, error } = await supabase
@@ -283,7 +283,7 @@ export async function updateProfile({ firstName, lastName, phone }) {
   }
 
   if (!data) {
-    return { error: new Error('Could not update your profile.') };
+    return { error: new Error('Профилът не можа да бъде обновен.') };
   }
 
   await refreshAuthState();
@@ -293,7 +293,7 @@ export async function updateProfile({ firstName, lastName, phone }) {
 
 export async function updateEmail(email) {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   return supabase.auth.updateUser({ email });
@@ -301,7 +301,7 @@ export async function updateEmail(email) {
 
 export async function updatePassword(password) {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   return supabase.auth.updateUser({ password });
@@ -309,7 +309,7 @@ export async function updatePassword(password) {
 
 export async function signOut() {
   if (!supabase) {
-    return { error: new Error('Supabase is not configured.') };
+    return { error: new Error('Supabase не е конфигуриран.') };
   }
 
   const response = await supabase.auth.signOut({ scope: 'local' });

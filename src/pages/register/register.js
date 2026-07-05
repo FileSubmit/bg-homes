@@ -42,27 +42,27 @@ export function hydrate(root) {
     const confirmPassword = String(formData.get('confirmPassword') ?? '');
 
     if (!fullName || !email || !password) {
-      setMessage(root, 'All fields are required.');
+      setMessage(root, 'Всички полета са задължителни.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage(root, 'Passwords do not match.');
+      setMessage(root, 'Паролите не съвпадат.');
       return;
     }
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Creating account...';
+      submitButton.textContent = 'Създаване на профил…';
     }
 
     const { data, error } = await signUpWithPassword({ fullName, email, password });
 
     if (error) {
-      setMessage(root, error.message || 'Could not create your account.');
+      setMessage(root, error.message || 'Профилът не можа да бъде създаден.');
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = 'Create account';
+        submitButton.textContent = 'Създаване на профил';
       }
       return;
     }
@@ -72,11 +72,11 @@ export function hydrate(root) {
       return;
     }
 
-    setMessage(root, 'Account created. Check your email to confirm your address before logging in.', 'success');
+    setMessage(root, 'Профилът е създаден. Проверете имейла си, за да потвърдите адреса, преди да влезете.', 'success');
 
     if (submitButton) {
       submitButton.disabled = false;
-      submitButton.textContent = 'Create account';
+      submitButton.textContent = 'Създаване на профил';
     }
   });
 }

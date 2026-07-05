@@ -2,57 +2,57 @@ import { getAuthState } from './lib/auth.js';
 
 const routeMatchers = [
   {
-    title: 'Home',
+    title: 'Начало',
     test: (pathname) => pathname === '/',
     load: () => import('./pages/home/home.js'),
   },
   {
-    title: 'Login',
+    title: 'Вход',
     test: (pathname) => pathname === '/login',
     load: () => import('./pages/login/login.js'),
   },
   {
-    title: 'Register',
+    title: 'Регистрация',
     test: (pathname) => pathname === '/register',
     load: () => import('./pages/register/register.js'),
   },
   {
-    title: 'Forgot password',
+    title: 'Забравена парола',
     test: (pathname) => pathname === '/forgot-password',
     load: () => import('./pages/forgot-password/forgot-password.js'),
   },
   {
-    title: 'Reset password',
+    title: 'Нова парола',
     test: (pathname) => pathname === '/reset-password',
     load: () => import('./pages/reset-password/reset-password.js'),
   },
   {
-    title: 'Properties',
+    title: 'Имоти',
     test: (pathname) => pathname === '/properties',
     load: () => import('./pages/properties/properties.js'),
   },
   {
-    title: 'Add property',
+    title: 'Добавяне на имот',
     test: (pathname) => pathname === '/add-property',
     load: () => import('./pages/add-property/add-property.js'),
   },
   {
-    title: 'Edit property',
+    title: 'Редактиране на имот',
     test: (pathname) => /^\/properties\/[^/]+\/edit$/.test(pathname),
     load: () => import('./pages/add-property/add-property.js'),
   },
   {
-    title: 'Property details',
+    title: 'Детайли за имота',
     test: (pathname) => /^\/properties\/[^/]+$/.test(pathname),
     load: () => import('./pages/property-details/property-details.js'),
   },
   {
-    title: 'Profile',
+    title: 'Профил',
     test: (pathname) => pathname === '/profile',
     load: () => import('./pages/profile/profile.js'),
   },
   {
-    title: 'Admin',
+    title: 'Админ',
     test: (pathname) => pathname === '/admin',
     load: () => import('./pages/admin/admin.js'),
   },
@@ -70,7 +70,7 @@ function requiresAuth(pathname) {
 }
 
 const notFoundRoute = {
-  title: 'Page not found',
+  title: 'Страницата не е намерена',
   load: () => import('./pages/not-found/not-found.js'),
 };
 
@@ -108,15 +108,15 @@ async function renderRoute(pageSlot, onRouteChange) {
       pageSlot.innerHTML = `
         <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
           <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
-            <p class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-600">Access denied</p>
-            <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Admin access only</h1>
-            <p class="mt-4 text-slate-600">Your account is signed in, but it does not have admin privileges.</p>
-            <a class="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white" href="/">Go home</a>
+            <p class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-600">Отказан достъп</p>
+            <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Само за администратори</h1>
+            <p class="mt-4 text-slate-600">Влезли сте в профила си, но нямате администраторски права.</p>
+            <a class="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white" href="/">Начало</a>
           </div>
         </section>
       `;
-      document.title = 'Access denied | BG Homes';
-      onRouteChange?.({ pathname, route: 'Access denied', params: {} });
+      document.title = 'Отказан достъп | BG Homes';
+      onRouteChange?.({ pathname, route: 'Отказан достъп', params: {} });
       return;
     }
   }

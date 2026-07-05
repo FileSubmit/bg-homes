@@ -38,31 +38,31 @@ export function hydrate(root) {
     const email = String(formData.get('email') ?? '').trim();
 
     if (!email) {
-      setMessage(root, 'Enter your email address.');
+      setMessage(root, 'Въведете имейл адрес.');
       return;
     }
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Sending link...';
+      submitButton.textContent = 'Изпращане…';
     }
 
     const { error } = await requestPasswordReset(email);
 
     if (error) {
-      setMessage(root, error.message || 'Could not send the reset email.');
+      setMessage(root, error.message || 'Имейлът за нова парола не можа да бъде изпратен.');
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = 'Send reset link';
+        submitButton.textContent = 'Изпращане на линк';
       }
       return;
     }
 
-    setMessage(root, 'If the email exists, we sent a password reset link.', 'success');
+    setMessage(root, 'Ако имейлът съществува, изпратихме линк за нова парола.', 'success');
 
     if (submitButton) {
       submitButton.disabled = false;
-      submitButton.textContent = 'Send reset link';
+      submitButton.textContent = 'Изпращане на линк';
     }
   });
 }

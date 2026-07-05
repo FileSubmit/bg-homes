@@ -19,24 +19,24 @@ function navLink(href, label, pathname) {
 function authLinks(authState, pathname) {
   if (!authState.user) {
     return `
-      ${navLink('/login', 'Login', pathname)}
-      ${navLink('/register', 'Register', pathname)}
+      ${navLink('/login', 'Вход', pathname)}
+      ${navLink('/register', 'Регистрация', pathname)}
     `;
   }
 
-  const adminLink = authState.isAdmin ? navLink('/admin', 'Admin', pathname) : '';
+  const adminLink = authState.isAdmin ? navLink('/admin', 'Админ', pathname) : '';
   const greeting = escapeHtml(getAuthLabel());
 
   return `
-    ${navLink('/add-property', 'Add property', pathname)}
-    ${navLink('/profile', 'Profile', pathname)}
-    <span class="text-sm font-medium text-slate-500">Hi, ${greeting}</span>
+    ${navLink('/add-property', 'Добави имот', pathname)}
+    ${navLink('/profile', 'Профил', pathname)}
+    <span class="text-sm font-medium text-slate-500">Здравей, ${greeting}</span>
     <button
       type="button"
       data-logout-button
       class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900"
     >
-      Sign out
+      Изход
     </button>
     ${adminLink}
   `;
@@ -54,12 +54,12 @@ export function renderHeader(pathname = window.location.pathname, authState = ge
           aria-expanded="false"
           aria-controls="primary-nav"
         >
-          Menu
+          Меню
         </button>
         <nav id="primary-nav" data-nav-menu class="hidden w-full md:block md:w-auto">
           <ul class="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-6">
-            <li>${navLink('/', 'Home', pathname)}</li>
-            <li>${navLink('/properties', 'Properties', pathname)}</li>
+            <li>${navLink('/', 'Начало', pathname)}</li>
+            <li>${navLink('/properties', 'Имоти', pathname)}</li>
             <li class="hidden md:block md:h-4 md:w-px md:bg-slate-200"></li>
             <li class="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-4">
               ${authLinks(authState, pathname)}

@@ -60,9 +60,9 @@ function listingRow(property) {
   const photoUrl = sanitizeUrl(coverPhotoUrl(property));
   const thumb = photoUrl
     ? `<img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(property.title)}" class="h-20 w-28 flex-none rounded-2xl object-cover" loading="lazy" />`
-    : '<div class="flex h-20 w-28 flex-none items-center justify-center rounded-2xl bg-slate-100 text-xs font-medium text-slate-400">No photo</div>';
+    : '<div class="flex h-20 w-28 flex-none items-center justify-center rounded-2xl bg-slate-100 text-xs font-medium text-slate-400">Няма снимка</div>';
 
-  const toggleLabel = property.status === 'active' ? 'Unpublish' : 'Publish';
+  const toggleLabel = property.status === 'active' ? 'Скрий' : 'Публикувай';
 
   return `
     <article class="flex flex-wrap items-center gap-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
@@ -81,12 +81,12 @@ function listingRow(property) {
         <p class="mt-1 text-sm text-slate-500">${escapeHtml([property.city, property.neighborhood].filter(Boolean).join(', '))} · ${formatPrice(property.price, property.currency)}</p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <a class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Edit</a>
+        <a class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Редакция</a>
         <button type="button" data-action="toggle" data-id="${escapeHtml(property.id)}" data-status="${escapeHtml(property.status)}" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900">
           ${toggleLabel}
         </button>
         <button type="button" data-action="delete" data-id="${escapeHtml(property.id)}" data-title="${escapeHtml(property.title)}" class="rounded-full border border-rose-200 px-4 py-2 text-sm font-medium text-rose-600 transition hover:border-rose-500 hover:text-rose-700">
-          Delete
+          Изтрий
         </button>
       </div>
     </article>
@@ -118,12 +118,12 @@ export function hydrate(root, params, { authState }) {
       const phone = String(formData.get('phone') ?? '').trim();
 
       if (!firstName || !lastName) {
-        setMessage(root, '[data-profile-message]', 'First and last name are required.');
+        setMessage(root, '[data-profile-message]', 'Името и фамилията са задължителни.');
         return;
       }
 
       if (firstName.length > 80 || lastName.length > 80 || phone.length > 30) {
-        setMessage(root, '[data-profile-message]', 'One of the fields is too long.');
+        setMessage(root, '[data-profile-message]', 'Едно от полетата е твърде дълго.');
         return;
       }
 
@@ -135,11 +135,11 @@ export function hydrate(root, params, { authState }) {
       submitButton.disabled = false;
 
       if (error) {
-        setMessage(root, '[data-profile-message]', error.message || 'Could not update your details.');
+        setMessage(root, '[data-profile-message]', error.message || 'Данните не можаха да бъдат обновени.');
         return;
       }
 
-      setMessage(root, '[data-profile-message]', 'Your details were updated.', 'success');
+      setMessage(root, '[data-profile-message]', 'Данните ви бяха обновени.', 'success');
     });
   }
 
@@ -153,12 +153,12 @@ export function hydrate(root, params, { authState }) {
       const email = String(new FormData(emailForm).get('email') ?? '').trim();
 
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        setMessage(root, '[data-email-message]', 'Enter a valid email address.');
+        setMessage(root, '[data-email-message]', 'Въведете валиден имейл адрес.');
         return;
       }
 
       if (email === authState.user.email) {
-        setMessage(root, '[data-email-message]', 'This is already your email address.');
+        setMessage(root, '[data-email-message]', 'Това вече е вашият имейл адрес.');
         return;
       }
 
@@ -170,11 +170,11 @@ export function hydrate(root, params, { authState }) {
       submitButton.disabled = false;
 
       if (error) {
-        setMessage(root, '[data-email-message]', error.message || 'Could not update your email.');
+        setMessage(root, '[data-email-message]', error.message || 'Имейлът не можа да бъде обновен.');
         return;
       }
 
-      setMessage(root, '[data-email-message]', 'Check your inbox to confirm the new email address.', 'success');
+      setMessage(root, '[data-email-message]', 'Проверете пощата си, за да потвърдите новия имейл адрес.', 'success');
     });
   }
 
@@ -188,12 +188,12 @@ export function hydrate(root, params, { authState }) {
       const confirmPassword = String(formData.get('confirmPassword') ?? '');
 
       if (password.length < 8) {
-        setMessage(root, '[data-password-message]', 'Password must be at least 8 characters.');
+        setMessage(root, '[data-password-message]', 'Паролата трябва да е поне 8 символа.');
         return;
       }
 
       if (password !== confirmPassword) {
-        setMessage(root, '[data-password-message]', 'Passwords do not match.');
+        setMessage(root, '[data-password-message]', 'Паролите не съвпадат.');
         return;
       }
 
@@ -205,12 +205,12 @@ export function hydrate(root, params, { authState }) {
       submitButton.disabled = false;
 
       if (error) {
-        setMessage(root, '[data-password-message]', error.message || 'Could not change your password.');
+        setMessage(root, '[data-password-message]', error.message || 'Паролата не можа да бъде сменена.');
         return;
       }
 
       passwordForm.reset();
-      setMessage(root, '[data-password-message]', 'Your password was changed.', 'success');
+      setMessage(root, '[data-password-message]', 'Паролата ви беше сменена.', 'success');
     });
   }
 
@@ -222,12 +222,12 @@ export function hydrate(root, params, { authState }) {
     const { data, error } = await fetchOwnProperties(authState.user.id);
 
     if (error) {
-      listingsContainer.innerHTML = '<p class="text-rose-600">Could not load your listings. Please try again later.</p>';
+      listingsContainer.innerHTML = '<p class="text-rose-600">Вашите обяви не можаха да бъдат заредени. Опитайте отново по-късно.</p>';
       return;
     }
 
     if (data.length === 0) {
-      listingsContainer.innerHTML = '<p class="text-slate-500">You have no listings yet. Add your first property to get started.</p>';
+      listingsContainer.innerHTML = '<p class="text-slate-500">Все още нямате обяви. Добавете първия си имот, за да започнете.</p>';
       return;
     }
 
@@ -260,7 +260,7 @@ export function hydrate(root, params, { authState }) {
 
       if (error) {
         button.disabled = false;
-        setMessage(root, '[data-listings-message]', error.message || 'Could not update the listing status.');
+        setMessage(root, '[data-listings-message]', error.message || 'Статусът на обявата не можа да бъде обновен.');
         return;
       }
 
@@ -269,9 +269,9 @@ export function hydrate(root, params, { authState }) {
     }
 
     if (action === 'delete') {
-      const title = button.dataset.title || 'this listing';
+      const title = button.dataset.title || 'тази обява';
 
-      if (!window.confirm(`Delete "${title}" permanently? This cannot be undone.`)) {
+      if (!window.confirm(`Да се изтрие ли "${title}" завинаги? Това действие не може да бъде отменено.`)) {
         return;
       }
 
@@ -281,7 +281,7 @@ export function hydrate(root, params, { authState }) {
 
       if (error) {
         button.disabled = false;
-        setMessage(root, '[data-listings-message]', error.message || 'Could not delete the listing.');
+        setMessage(root, '[data-listings-message]', error.message || 'Обявата не можа да бъде изтрита.');
         return;
       }
 

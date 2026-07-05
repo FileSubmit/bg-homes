@@ -80,7 +80,7 @@ export async function fetchPropertyById(id) {
 
 export async function fetchOwnProperties(userId) {
   if (!supabase) {
-    return { data: [], error: new Error('Supabase is not configured.') };
+    return { data: [], error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { data, error } = await supabase
@@ -157,7 +157,7 @@ async function replaceFeatures(propertyId, featureIds) {
 
 export async function createProperty({ property, photoUrls = [], featureIds = [] }) {
   if (!supabase) {
-    return { data: null, error: new Error('Supabase is not configured.') };
+    return { data: null, error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { data, error } = await supabase
@@ -178,7 +178,7 @@ export async function createProperty({ property, photoUrls = [], featureIds = []
 
 export async function updateProperty(id, { property, photoUrls = [], featureIds = [] }) {
   if (!supabase) {
-    return { data: null, error: new Error('Supabase is not configured.') };
+    return { data: null, error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { data, error } = await supabase
@@ -193,7 +193,7 @@ export async function updateProperty(id, { property, photoUrls = [], featureIds 
   }
 
   if (!data) {
-    return { data: null, error: new Error('Property not found or you are not allowed to edit it.') };
+    return { data: null, error: new Error('Имотът не е намерен или нямате право да го редактирате.') };
   }
 
   const photosError = await replacePhotos(id, photoUrls);
@@ -204,7 +204,7 @@ export async function updateProperty(id, { property, photoUrls = [], featureIds 
 
 export async function setPropertyStatus(id, status) {
   if (!supabase) {
-    return { data: null, error: new Error('Supabase is not configured.') };
+    return { data: null, error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { data, error } = await supabase
@@ -219,7 +219,7 @@ export async function setPropertyStatus(id, status) {
   }
 
   if (!data) {
-    return { data: null, error: new Error('Property not found or you are not allowed to change it.') };
+    return { data: null, error: new Error('Имотът не е намерен или нямате право да го променяте.') };
   }
 
   return { data, error: null };
@@ -227,7 +227,7 @@ export async function setPropertyStatus(id, status) {
 
 export async function deleteProperty(id) {
   if (!supabase) {
-    return { data: null, error: new Error('Supabase is not configured.') };
+    return { data: null, error: new Error('Supabase не е конфигуриран.') };
   }
 
   const { data, error } = await supabase
@@ -242,7 +242,7 @@ export async function deleteProperty(id) {
   }
 
   if (!data) {
-    return { data: null, error: new Error('Property not found or you are not allowed to delete it.') };
+    return { data: null, error: new Error('Имотът не е намерен или нямате право да го изтриете.') };
   }
 
   return { data, error: null };

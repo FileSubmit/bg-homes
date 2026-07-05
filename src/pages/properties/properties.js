@@ -13,18 +13,18 @@ export function hydrate(root) {
     return;
   }
 
-  grid.innerHTML = '<p class="text-slate-500">Loading listings…</p>';
+  grid.innerHTML = '<p class="text-slate-500">Зареждане на обявите…</p>';
 
   void (async () => {
     const { data, error } = await fetchActiveProperties();
 
     if (error) {
-      grid.innerHTML = '<p class="text-rose-600">Could not load the listings. Please try again later.</p>';
+      grid.innerHTML = '<p class="text-rose-600">Обявите не можаха да бъдат заредени. Опитайте отново по-късно.</p>';
       return;
     }
 
     if (data.length === 0) {
-      grid.innerHTML = '<p class="text-slate-500">No listings yet. Be the first to add a property!</p>';
+      grid.innerHTML = '<p class="text-slate-500">Все още няма обяви. Бъдете първият, който добавя имот!</p>';
       return;
     }
 

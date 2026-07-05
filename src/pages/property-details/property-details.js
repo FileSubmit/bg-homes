@@ -15,10 +15,10 @@ import { fetchFeatures, fetchPropertyById, sortedPhotos } from '../../lib/proper
 
 function notFoundMarkup() {
   return `
-    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Property</p>
-    <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Property not found</h1>
-    <p class="mt-4 text-slate-600">This listing does not exist or is no longer available.</p>
-    <a class="mt-8 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white" href="/properties">Back to properties</a>
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Имот</p>
+    <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Имотът не е намерен</h1>
+    <p class="mt-4 text-slate-600">Тази обява не съществува или вече не е налична.</p>
+    <a class="mt-8 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white" href="/properties">Обратно към имотите</a>
   `;
 }
 
@@ -51,7 +51,7 @@ function photosMarkup(property) {
           (photoUrl, index) => `
             <img
               src="${escapeHtml(photoUrl)}"
-              alt="${escapeHtml(property.title)} photo ${index + 1}"
+              alt="${escapeHtml(property.title)} снимка ${index + 1}"
               class="${index === 0 ? 'sm:col-span-2 h-80' : 'h-56'} w-full rounded-2xl object-cover"
               loading="lazy"
             />
@@ -73,7 +73,7 @@ function featuresMarkup(property, featureNamesById) {
 
   return `
     <div class="mt-8">
-      <h2 class="text-lg font-semibold text-slate-900">Features</h2>
+      <h2 class="text-lg font-semibold text-slate-900">Особености</h2>
       <ul class="mt-3 flex flex-wrap gap-2">
         ${names
           .map(
@@ -102,9 +102,9 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
   const manageActions = canManage
     ? `
       <div class="mt-8 flex flex-wrap gap-3 rounded-2xl bg-slate-50 p-4">
-        <span class="w-full text-sm font-medium text-slate-500">You manage this listing</span>
-        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Edit listing</a>
-        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/profile">Manage in profile</a>
+        <span class="w-full text-sm font-medium text-slate-500">Вие управлявате тази обява</span>
+        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Редактиране на обявата</a>
+        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/profile">Управление в профила</a>
       </div>
     `
     : '';
@@ -124,26 +124,26 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
     <p class="mt-6 text-4xl font-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
     ${photosMarkup(property)}
     <div class="mt-8 grid gap-4 sm:grid-cols-3">
-      ${factTile('Net area', property.net_area ? `${property.net_area} m²` : null)}
-      ${factTile('Gross area', property.gross_area ? `${property.gross_area} m²` : null)}
-      ${factTile('Bedrooms', property.bedrooms)}
-      ${factTile('Bathrooms', property.bathrooms)}
-      ${factTile('Floor', property.floor !== null && property.total_floors ? `${property.floor} of ${property.total_floors}` : property.floor)}
-      ${factTile('Construction', constructionTypeLabels[property.construction_type])}
-      ${factTile('Year built', property.construction_year)}
-      ${factTile('Stage', constructionStageLabels[property.construction_stage])}
-      ${factTile('Heating', heatingLabels[property.heating])}
-      ${factTile('Furnishing', furnishingLabels[property.furnishing])}
+      ${factTile('Полезна площ', property.net_area ? `${property.net_area} m²` : null)}
+      ${factTile('Обща площ', property.gross_area ? `${property.gross_area} m²` : null)}
+      ${factTile('Спални', property.bedrooms)}
+      ${factTile('Бани', property.bathrooms)}
+      ${factTile('Етаж', property.floor !== null && property.total_floors ? `${property.floor} от ${property.total_floors}` : property.floor)}
+      ${factTile('Конструкция', constructionTypeLabels[property.construction_type])}
+      ${factTile('Година на строеж', property.construction_year)}
+      ${factTile('Етап на строителство', constructionStageLabels[property.construction_stage])}
+      ${factTile('Отопление', heatingLabels[property.heating])}
+      ${factTile('Обзавеждане', furnishingLabels[property.furnishing])}
     </div>
     ${featuresMarkup(property, featureNamesById)}
     ${property.description ? `
       <div class="mt-8">
-        <h2 class="text-lg font-semibold text-slate-900">Description</h2>
+        <h2 class="text-lg font-semibold text-slate-900">Описание</h2>
         <p class="mt-3 max-w-3xl whitespace-pre-line text-base leading-8 text-slate-600">${escapeHtml(property.description)}</p>
       </div>
     ` : ''}
     ${manageActions}
-    <a class="mt-10 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Back to properties</a>
+    <a class="mt-10 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Обратно към имотите</a>
   `;
 }
 
@@ -158,7 +158,7 @@ export function hydrate(root, params, { authState } = {}) {
     return;
   }
 
-  details.innerHTML = '<p class="text-slate-500">Loading listing…</p>';
+  details.innerHTML = '<p class="text-slate-500">Зареждане на обявата…</p>';
 
   void (async () => {
     const [{ data: property, error }, { data: features }] = await Promise.all([

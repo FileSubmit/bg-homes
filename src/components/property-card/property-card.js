@@ -13,7 +13,7 @@ function cardImage(property) {
   if (!photoUrl) {
     return `
       <div class="flex h-44 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-medium text-slate-400">
-        No photo
+        Няма снимка
       </div>
     `;
   }
@@ -48,11 +48,11 @@ export function propertyCard(property) {
       <p class="mt-1 text-sm text-slate-500">${location}</p>
       <p class="mt-3 text-2xl font-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
       <dl class="mt-3 grid grid-cols-2 gap-3 text-sm text-slate-600">
-        <div><dt class="font-medium text-slate-900">Bedrooms</dt><dd>${escapeHtml(bedrooms)}</dd></div>
-        <div><dt class="font-medium text-slate-900">Area</dt><dd>${area}</dd></div>
+        <div><dt class="font-medium text-slate-900">Спални</dt><dd>${escapeHtml(bedrooms)}</dd></div>
+        <div><dt class="font-medium text-slate-900">Площ</dt><dd>${area}</dd></div>
       </dl>
       <a class="mt-5 inline-flex self-start rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties/${escapeHtml(property.id)}">
-        View details
+        Виж детайли
       </a>
     </article>
   `;

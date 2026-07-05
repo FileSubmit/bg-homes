@@ -17,12 +17,12 @@ export function hydrate(root) {
     const { data, error } = await fetchActiveProperties({ limit: 6 });
 
     if (error) {
-      grid.innerHTML = '<p class="text-rose-600">Could not load the latest listings. Please try again later.</p>';
+      grid.innerHTML = '<p class="text-rose-600">Последните обяви не можаха да бъдат заредени. Опитайте отново по-късно.</p>';
       return;
     }
 
     if (data.length === 0) {
-      grid.innerHTML = '<p class="text-slate-500">No listings yet. Be the first to add a property!</p>';
+      grid.innerHTML = '<p class="text-slate-500">Все още няма обяви. Бъдете първият, който добавя имот!</p>';
       return;
     }
 

@@ -40,22 +40,22 @@ export function hydrate(root) {
     const password = String(formData.get('password') ?? '');
 
     if (!email || !password) {
-      setMessage(root, 'All fields are required.');
+      setMessage(root, 'Всички полета са задължителни.');
       return;
     }
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Signing in...';
+      submitButton.textContent = 'Влизане…';
     }
 
     const { error } = await signInWithPassword(email, password);
 
     if (error) {
-      setMessage(root, error.message || 'Invalid email or password.');
+      setMessage(root, error.message || 'Невалиден имейл или парола.');
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = 'Sign in';
+        submitButton.textContent = 'Влизане';
       }
       return;
     }

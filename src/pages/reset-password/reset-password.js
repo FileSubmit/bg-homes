@@ -9,10 +9,10 @@ export function render() {
     return `
       <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Account recovery</p>
-          <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Reset password</h1>
-          <p class="mt-4 text-slate-600">Open the reset link from your email first. After that you can set a new password here.</p>
-          <a class="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white" href="/forgot-password">Request a reset link</a>
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Възстановяване на профил</p>
+          <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Нова парола</h1>
+          <p class="mt-4 text-slate-600">Първо отворете линка за нова парола от имейла си. След това ще можете да зададете нова парола тук.</p>
+          <a class="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white" href="/forgot-password">Заявка за линк</a>
         </div>
       </section>
     `;
@@ -55,32 +55,32 @@ export function hydrate(root) {
     const confirmPassword = String(formData.get('confirmPassword') ?? '');
 
     if (!password || !confirmPassword) {
-      setMessage(root, 'Both password fields are required.');
+      setMessage(root, 'И двете полета за парола са задължителни.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage(root, 'Passwords do not match.');
+      setMessage(root, 'Паролите не съвпадат.');
       return;
     }
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Saving...';
+      submitButton.textContent = 'Запазване…';
     }
 
     const { error } = await updatePassword(password);
 
     if (error) {
-      setMessage(root, error.message || 'Could not update your password.');
+      setMessage(root, error.message || 'Паролата не можа да бъде обновена.');
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = 'Update password';
+        submitButton.textContent = 'Смяна на паролата';
       }
       return;
     }
 
-    setMessage(root, 'Your password has been updated.', 'success');
+    setMessage(root, 'Паролата ви беше обновена.', 'success');
     navigateTo('/');
   });
 }
