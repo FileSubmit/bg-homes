@@ -42,6 +42,19 @@ function setMessage(root, selector, message, tone = 'error') {
   messageSlot.textContent = message;
 }
 
+function setActiveTab(root, tab) {
+  root.querySelectorAll('[data-tab-button]').forEach((button) => {
+    const isActive = button.dataset.tabButton === tab;
+    button.classList.toggle('bg-emerald-50', isActive);
+    button.classList.toggle('text-emerald-700', isActive);
+    button.classList.toggle('text-slate-600', !isActive);
+  });
+
+  root.querySelectorAll('[data-tab-panel]').forEach((panel) => {
+    panel.classList.toggle('hidden', panel.dataset.tabPanel !== tab);
+  });
+}
+
 function statusBadge(status) {
   const styles = {
     active: 'bg-emerald-50 text-emerald-700',
@@ -97,6 +110,12 @@ export function hydrate(root, params, { authState }) {
   if (!authState?.user) {
     return;
   }
+
+  root.querySelectorAll('[data-tab-button]').forEach((button) => {
+    button.addEventListener('click', () => setActiveTab(root, button.dataset.tabButton));
+  });
+
+  setActiveTab(root, 'properties');
 
   const profileForm = root.querySelector('[data-profile-form]');
   const emailForm = root.querySelector('[data-email-form]');
