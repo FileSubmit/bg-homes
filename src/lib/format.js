@@ -126,3 +126,15 @@ export function formatDate(value) {
     return '—';
   }
 }
+
+export function formatDateTime(value) {
+  if (!value) {
+    return '—';
+  }
+
+  try {
+    return new Intl.DateTimeFormat('bg-BG', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
+  } catch {
+    return '—';
+  }
+}

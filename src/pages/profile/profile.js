@@ -1,7 +1,9 @@
 import template from './profile.html?raw';
 import { updateEmail, updatePassword, updateProfile } from '../../lib/auth.js';
+import { refreshUnreadBadge } from '../../components/header/header.js';
 import {
   escapeHtml,
+  formatDateTime,
   formatPrice,
   isUuid,
   propertyTypeLabels,
@@ -15,6 +17,15 @@ import {
   fetchOwnProperties,
   setPropertyStatus,
 } from '../../lib/properties.js';
+import {
+  fetchConversations,
+  lastMessage,
+  markConversationRead,
+  otherParticipant,
+  sendReply,
+  sortedMessages,
+  unreadCountFor,
+} from '../../lib/messages.js';
 
 export function render() {
   return template;
@@ -53,6 +64,11 @@ function setActiveTab(root, tab) {
   root.querySelectorAll('[data-tab-panel]').forEach((panel) => {
     panel.classList.toggle('hidden', panel.dataset.tabPanel !== tab);
   });
+}
+
+function participantName(person) {
+  const name = [person?.first_name, person?.last_name].filter(Boolean).join(' ').trim();
+  return name || person?.email || 'Потребител';
 }
 
 function statusBadge(status) {
@@ -115,7 +131,194 @@ export function hydrate(root, params, { authState }) {
     button.addEventListener('click', () => setActiveTab(root, button.dataset.tabButton));
   });
 
-  setActiveTab(root, 'properties');
+  const requestedTab = new URLSearchParams(window.location.search).get('tab');
+  setActiveTab(root, ['properties', 'messages', 'account'].includes(requestedTab) ? requestedTab : 'properties');
+
+  const conversationsList = root.querySelector('[data-conversations-list]');
+  const conversationThread = root.querySelector('[data-conversation-thread]');
+  const messagesTabBadge = root.querySelector('[data-messages-tab-badge]');
+
+  if (conversationsList && conversationThread) {
+    const userId = authState.user.id;
+    let conversations = [];
+    let selectedId = null;
+
+    const updateTabBadge = () => {
+      const unread = conversations.reduce((sum, conversation) => sum + unreadCountFor(conversation, userId), 0);
+
+      if (!messagesTabBadge) {
+        return;
+      }
+
+      if (unread > 0) {
+        messagesTabBadge.textContent = unread > 9 ? '9+' : String(unread);
+        messagesTabBadge.classList.remove('hidden');
+        messagesTabBadge.classList.add('flex');
+      } else {
+        messagesTabBadge.textContent = '';
+        messagesTabBadge.classList.add('hidden');
+        messagesTabBadge.classList.remove('flex');
+      }
+    };
+
+    const renderConversationsList = () => {
+      if (conversations.length === 0) {
+        conversationsList.innerHTML = '<p class="p-4 text-sm text-slate-500">Все още нямате съобщения.</p>';
+        return;
+      }
+
+      conversationsList.innerHTML = conversations
+        .map((conversation) => {
+          const other = otherParticipant(conversation, userId);
+          const last = lastMessage(conversation);
+          const unread = unreadCountFor(conversation, userId);
+          const isActive = conversation.id === selectedId;
+
+          return `
+            <button
+              type="button"
+              data-conversation-id="${escapeHtml(conversation.id)}"
+              class="flex w-full flex-col gap-1 border-b border-slate-100 px-4 py-3 text-left transition hover:bg-slate-50 ${isActive ? 'bg-emerald-50' : ''}"
+            >
+              <div class="flex items-center justify-between gap-2">
+                <span class="truncate text-sm font-semibold text-slate-900">${escapeHtml(participantName(other))}</span>
+                ${unread > 0 ? `<span class="flex h-5 min-w-[1.25rem] shrink-0 items-center justify-center rounded-full bg-rose-500 px-1.5 text-xs font-bold text-white">${unread > 9 ? '9+' : unread}</span>` : ''}
+              </div>
+              <p class="truncate text-xs font-medium text-emerald-700">${escapeHtml(conversation.property?.title ?? 'Изтрит имот')}</p>
+              <p class="truncate text-sm text-slate-500">${escapeHtml(last?.body ?? '')}</p>
+            </button>
+          `;
+        })
+        .join('');
+    };
+
+    const messageBubble = (message) => {
+      const isOwn = message.sender_id === userId;
+
+      return `
+        <div class="flex ${isOwn ? 'justify-end' : 'justify-start'}">
+          <div class="max-w-[75%] rounded-2xl px-4 py-2.5 text-sm ${isOwn ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-900'}">
+            <p class="whitespace-pre-line">${escapeHtml(message.body)}</p>
+            <p class="mt-1 text-[11px] ${isOwn ? 'text-slate-300' : 'text-slate-400'}">${escapeHtml(formatDateTime(message.created_at))}</p>
+          </div>
+        </div>
+      `;
+    };
+
+    const renderThread = () => {
+      const conversation = conversations.find((item) => item.id === selectedId);
+
+      if (!conversation) {
+        conversationThread.innerHTML = '<p class="m-auto text-sm text-slate-500">Изберете разговор от списъка.</p>';
+        return;
+      }
+
+      const other = otherParticipant(conversation, userId);
+      const messages = sortedMessages(conversation);
+
+      conversationThread.innerHTML = `
+        <div class="border-b border-slate-100 p-4">
+          <p class="font-semibold text-slate-900">${escapeHtml(participantName(other))}</p>
+          <a href="/properties/${escapeHtml(conversation.property_id)}" class="text-sm text-emerald-700 hover:text-emerald-800">${escapeHtml(conversation.property?.title ?? 'Изтрит имот')}</a>
+        </div>
+        <div data-thread-messages class="flex-1 space-y-3 overflow-y-auto p-4">
+          ${messages.map(messageBubble).join('')}
+        </div>
+        <form data-reply-form class="flex items-end gap-2 border-t border-slate-100 p-4">
+          <textarea name="body" rows="1" maxlength="4000" required placeholder="Напишете съобщение…" class="flex-1 resize-none rounded-2xl border border-slate-300 px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-slate-900"></textarea>
+          <button type="submit" class="shrink-0 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60">Изпрати</button>
+        </form>
+      `;
+
+      const threadMessages = conversationThread.querySelector('[data-thread-messages]');
+
+      if (threadMessages) {
+        threadMessages.scrollTop = threadMessages.scrollHeight;
+      }
+
+      conversationThread.querySelector('[data-reply-form]')?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const body = String(new FormData(form).get('body') ?? '').trim();
+
+        if (!body) {
+          return;
+        }
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+
+        const { error } = await sendReply({ conversationId: conversation.id, senderId: userId, body });
+
+        submitButton.disabled = false;
+
+        if (error) {
+          return;
+        }
+
+        form.reset();
+        await loadConversations({ keepSelected: true });
+      });
+    };
+
+    const markSelectedReadIfNeeded = async () => {
+      const conversation = conversations.find((item) => item.id === selectedId);
+
+      if (!conversation || unreadCountFor(conversation, userId) === 0) {
+        return;
+      }
+
+      await markConversationRead(selectedId, userId);
+
+      conversation.messages = conversation.messages.map((message) =>
+        message.sender_id !== userId && !message.read_at ? { ...message, read_at: new Date().toISOString() } : message
+      );
+
+      renderConversationsList();
+      updateTabBadge();
+      void refreshUnreadBadge();
+    };
+
+    const selectConversation = (id) => {
+      selectedId = id;
+      renderConversationsList();
+      renderThread();
+      void markSelectedReadIfNeeded();
+    };
+
+    const loadConversations = async ({ keepSelected = false } = {}) => {
+      const { data, error } = await fetchConversations(userId);
+
+      if (error) {
+        conversationsList.innerHTML = '<p class="p-4 text-sm text-rose-600">Съобщенията не можаха да бъдат заредени.</p>';
+        return;
+      }
+
+      conversations = data;
+
+      if (!keepSelected || !conversations.some((item) => item.id === selectedId)) {
+        selectedId = conversations[0]?.id ?? null;
+      }
+
+      renderConversationsList();
+      renderThread();
+      updateTabBadge();
+      void markSelectedReadIfNeeded();
+    };
+
+    conversationsList.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-conversation-id]');
+
+      if (!button) {
+        return;
+      }
+
+      selectConversation(button.dataset.conversationId);
+    });
+
+    void loadConversations();
+  }
 
   const profileForm = root.querySelector('[data-profile-form]');
   const emailForm = root.querySelector('[data-email-form]');

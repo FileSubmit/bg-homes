@@ -10,6 +10,10 @@
       <button type="button" data-tab-button="properties" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
         Публикувани имоти
       </button>
+      <button type="button" data-tab-button="messages" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
+        Съобщения
+        <span data-messages-tab-badge class="hidden h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-rose-500 px-1.5 text-xs font-bold leading-none text-white"></span>
+      </button>
       <button type="button" data-tab-button="account" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
         Лични данни
       </button>
@@ -28,6 +32,22 @@
           <div data-listings-message class="hidden"></div>
           <div data-my-properties class="mt-8 space-y-4">
             <p class="text-slate-500">Зареждане на вашите обяви…</p>
+          </div>
+        </div>
+      </section>
+
+      <section data-tab-panel="messages" class="hidden">
+        <div class="grid gap-4 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 lg:grid-cols-[300px_1fr] lg:gap-0">
+          <div class="border-b border-slate-200 lg:border-b-0 lg:border-r">
+            <div class="border-b border-slate-100 p-4">
+              <h2 class="text-lg font-semibold text-slate-900">Съобщения</h2>
+            </div>
+            <div data-conversations-list class="max-h-[28rem] overflow-y-auto lg:max-h-[36rem]">
+              <p class="p-4 text-sm text-slate-500">Зареждане на разговорите…</p>
+            </div>
+          </div>
+          <div data-conversation-thread class="flex min-h-[24rem] flex-col">
+            <p class="m-auto text-sm text-slate-500">Изберете разговор от списъка.</p>
           </div>
         </div>
       </section>

@@ -12,6 +12,8 @@ import {
   transactionTypeLabels,
 } from '../../lib/format.js';
 import { fetchFeatures, fetchPropertyById, sortedPhotos } from '../../lib/properties.js';
+import { sendPropertyMessage } from '../../lib/messages.js';
+import { refreshUnreadBadge } from '../../components/header/header.js';
 
 function notFoundMarkup() {
   return `
@@ -112,6 +114,46 @@ function contactCardMarkup(property) {
   `;
 }
 
+function messageFormMarkup(property, authState) {
+  if (!authState?.user) {
+    return `
+      <div class="mt-6 rounded-2xl bg-white p-5 text-center ring-1 ring-slate-200">
+        <p class="text-sm text-slate-600">Влезте в профила си, за да изпратите съобщение на автора на обявата.</p>
+        <a
+          class="mt-3 inline-flex rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+          href="/login?next=${encodeURIComponent(`/properties/${property.id}`)}"
+        >
+          Вход
+        </a>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="mt-6 rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Изпратете съобщение</p>
+      <p data-message-form-message class="hidden"></p>
+      <form data-message-form class="mt-4 space-y-3">
+        <textarea
+          name="body"
+          rows="4"
+          maxlength="4000"
+          required
+          placeholder="Здравейте, интересувам се от този имот…"
+          class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-900"
+        ></textarea>
+        <button
+          type="submit"
+          data-message-submit
+          class="rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Изпрати съобщение
+        </button>
+      </form>
+    </div>
+  `;
+}
+
 function propertyDetailsMarkup(property, featureNamesById, authState) {
   const isOwner = Boolean(authState?.user) && property.owner_id === authState.user.id;
   const canManage = isOwner || Boolean(authState?.isAdmin);
@@ -167,7 +209,7 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
         <p class="mt-3 max-w-3xl whitespace-pre-line text-base leading-8 text-slate-600">${escapeHtml(property.description)}</p>
       </div>
     ` : ''}
-    ${isOwner ? '' : contactCardMarkup(property)}
+    ${isOwner ? '' : `${contactCardMarkup(property)}${messageFormMarkup(property, authState)}`}
     ${manageActions}
     <a class="mt-10 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Обратно към имотите</a>
   `;
@@ -175,6 +217,69 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
 
 export function render() {
   return template;
+}
+
+function wireMessageForm(details, property, authState) {
+  const form = details.querySelector('[data-message-form]');
+
+  if (!form) {
+    return;
+  }
+
+  const messageSlot = details.querySelector('[data-message-form-message]');
+
+  const setFormMessage = (message, tone = 'error') => {
+    if (!messageSlot) {
+      return;
+    }
+
+    if (!message) {
+      messageSlot.classList.add('hidden');
+      messageSlot.textContent = '';
+      return;
+    }
+
+    const tones = {
+      error: 'bg-rose-50 text-rose-700 ring-1 ring-rose-200',
+      success: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
+    };
+
+    messageSlot.className = `mt-4 rounded-2xl px-4 py-3 text-sm ${tones[tone] ?? tones.error}`;
+    messageSlot.textContent = message;
+  };
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    setFormMessage('');
+
+    const body = String(new FormData(form).get('body') ?? '').trim();
+
+    if (!body) {
+      setFormMessage('Въведете съобщение.');
+      return;
+    }
+
+    const submitButton = form.querySelector('[data-message-submit]');
+    submitButton.disabled = true;
+
+    const { error } = await sendPropertyMessage({
+      propertyId: property.id,
+      ownerId: property.owner_id,
+      senderId: authState.user.id,
+      body,
+    });
+
+    submitButton.disabled = false;
+
+    if (error) {
+      setFormMessage(error.message || 'Съобщението не можа да бъде изпратено.');
+      return;
+    }
+
+    form.reset();
+    setFormMessage('Съобщението е изпратено.', 'success');
+    void refreshUnreadBadge();
+  });
 }
 
 export function hydrate(root, params, { authState } = {}) {
@@ -200,5 +305,11 @@ export function hydrate(root, params, { authState } = {}) {
     const featureNamesById = new Map(features.map((feature) => [feature.id, feature.name]));
 
     details.innerHTML = propertyDetailsMarkup(property, featureNamesById, authState);
+
+    const isOwner = Boolean(authState?.user) && property.owner_id === authState.user.id;
+
+    if (!isOwner && authState?.user) {
+      wireMessageForm(details, property, authState);
+    }
   })();
 }

@@ -1,5 +1,12 @@
 import { getAuthLabel, getAuthState, signOut } from '../../lib/auth.js';
 import { escapeHtml } from '../../lib/format.js';
+import { fetchUnreadMessageCount } from '../../lib/messages.js';
+
+const MESSAGES_ICON = `
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+  </svg>
+`;
 
 const MENU_ICON = `
   <svg data-icon-menu viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-5 w-5">
@@ -90,6 +97,16 @@ function authLinksDesktop(authState, pathname) {
       Добави имот
     </a>
     ${adminBadge}
+    <a
+      href="/profile?tab=messages"
+      data-nav-link
+      data-messages-link
+      title="Съобщения"
+      class="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-900 hover:text-slate-900"
+    >
+      ${MESSAGES_ICON}
+      <span data-messages-badge class="absolute -right-1 -top-1 hidden h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold leading-none text-white"></span>
+    </a>
     <a href="/profile" data-nav-link class="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
       <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">${initials}</span>
       <span class="hidden max-w-[8rem] truncate xl:inline">${greeting}</span>
@@ -121,6 +138,10 @@ function authLinksMobile(authState, pathname) {
   return `
     <p class="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Здравей, ${greeting}</p>
     ${navLink('/add-property', 'Добави имот', pathname, { mobile: true })}
+    <a data-nav-link data-messages-link href="/profile?tab=messages" class="flex items-center justify-between rounded-xl px-3 py-2 text-base font-semibold text-slate-700 transition hover:bg-slate-50">
+      Съобщения
+      <span data-messages-badge class="hidden h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-rose-500 px-1.5 text-xs font-bold leading-none text-white"></span>
+    </a>
     ${navLink('/profile', 'Профил', pathname, { mobile: true })}
     ${adminLink}
     <button
@@ -198,6 +219,42 @@ export function renderHeader(pathname = window.location.pathname, authState = ge
   `;
 }
 
+let pollHandle = null;
+
+function updateMessagesBadges(count) {
+  document.querySelectorAll('[data-messages-badge]').forEach((badge) => {
+    if (count > 0) {
+      badge.textContent = count > 9 ? '9+' : String(count);
+      badge.classList.remove('hidden');
+      badge.classList.add('flex');
+    } else {
+      badge.textContent = '';
+      badge.classList.add('hidden');
+      badge.classList.remove('flex');
+    }
+  });
+}
+
+export async function refreshUnreadBadge() {
+  const authState = getAuthState();
+
+  if (!authState.user) {
+    updateMessagesBadges(0);
+    return;
+  }
+
+  const { count } = await fetchUnreadMessageCount(authState.user.id);
+  updateMessagesBadges(count);
+}
+
+function ensureUnreadPolling() {
+  if (pollHandle) {
+    return;
+  }
+
+  pollHandle = setInterval(refreshUnreadBadge, 20000);
+}
+
 export function hydrateHeader(root) {
   const menuToggle = root.querySelector('[data-menu-toggle]');
   const navMenu = root.querySelector('[data-nav-menu]');
@@ -219,4 +276,7 @@ export function hydrateHeader(root) {
       await signOut();
     });
   });
+
+  void refreshUnreadBadge();
+  ensureUnreadPolling();
 }
