@@ -211,12 +211,16 @@ export function getAuthLabel() {
   return getDisplayName(state.user, state.profile);
 }
 
-export async function signInWithPassword(email, password) {
+export async function signInWithPassword(email, password, captchaToken) {
   if (!supabase) {
     return { error: new Error('Supabase не е конфигуриран.') };
   }
 
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+    options: captchaToken ? { captchaToken } : undefined,
+  });
 
   if (error) {
     return { error };
@@ -227,7 +231,7 @@ export async function signInWithPassword(email, password) {
   return { data };
 }
 
-export async function signUpWithPassword({ fullName, email, password }) {
+export async function signUpWithPassword({ fullName, email, password, captchaToken }) {
   if (!supabase) {
     return { error: new Error('Supabase не е конфигуриран.') };
   }
@@ -242,6 +246,7 @@ export async function signUpWithPassword({ fullName, email, password }) {
         last_name: lastName,
         full_name: fullName.trim(),
       },
+      captchaToken,
     },
   });
 

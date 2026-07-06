@@ -1,5 +1,6 @@
 import template from './login.html?raw';
 import { getNextPath, signInWithPassword } from '../../lib/auth.js';
+import { getHcaptchaResponse, renderHcaptcha, resetHcaptcha } from '../../lib/hcaptcha.js';
 import { navigateTo } from '../../router.js';
 
 export function render() {
@@ -26,9 +27,22 @@ function setMessage(root, message, tone = 'error') {
 export function hydrate(root) {
   const form = root.querySelector('[data-login-form]');
   const submitButton = root.querySelector('[data-login-submit]');
+  const captchaContainer = root.querySelector('[data-hcaptcha]');
 
   if (!form) {
     return;
+  }
+
+  let widgetId = null;
+
+  if (captchaContainer) {
+    renderHcaptcha(captchaContainer)
+      .then((id) => {
+        widgetId = id;
+      })
+      .catch((error) => {
+        setMessage(root, error.message || 'Проверката за сигурност не можа да се зареди.');
+      });
   }
 
   form.addEventListener('submit', async (event) => {
@@ -44,12 +58,21 @@ export function hydrate(root) {
       return;
     }
 
+    const captchaToken = widgetId !== null ? await getHcaptchaResponse(widgetId) : '';
+
+    if (!captchaToken) {
+      setMessage(root, 'Моля, потвърдете, че не сте робот.');
+      return;
+    }
+
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.textContent = 'Влизане…';
     }
 
-    const { error } = await signInWithPassword(email, password);
+    const { error } = await signInWithPassword(email, password, captchaToken);
+
+    resetHcaptcha(widgetId);
 
     if (error) {
       setMessage(root, error.message || 'Невалиден имейл или парола.');
