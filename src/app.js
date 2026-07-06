@@ -54,7 +54,7 @@ export async function bootstrapApp() {
     renderShellHeader();
 
     // Re-render the page only when the identity actually changes (sign in/out,
-    // role, recovery mode) — not on every profile refresh, which would wipe
+    // role, recovery mode) - not on every profile refresh, which would wipe
     // in-page form state and messages.
     const key = authKey(snapshot);
 

@@ -54,6 +54,10 @@ function setMessage(root, message, tone = 'error') {
 
   messageSlot.className = `mt-6 whitespace-pre-line rounded-2xl px-4 py-3 text-sm ${tones[tone] ?? tones.error}`;
   messageSlot.textContent = message;
+
+  if (tone === 'error' || tone === 'warning') {
+    messageSlot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 function fillSelect(select, items, placeholder) {

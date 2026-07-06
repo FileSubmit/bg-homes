@@ -30,12 +30,12 @@ function cardImage(property) {
 
 export function propertyCard(property) {
   const location = [property.city, property.neighborhood].filter(Boolean).map(escapeHtml).join(', ');
-  const area = property.net_area ? `${escapeHtml(property.net_area)} m²` : '—';
-  const bedrooms = property.bedrooms ?? '—';
+  const area = property.net_area ? `${escapeHtml(property.net_area)} m²` : '-';
+  const bedrooms = property.bedrooms ?? '-';
 
   return `
     <article class="flex flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg">
-      ${cardImage(property)}
+      <a href="/properties/${escapeHtml(property.id)}" class="block">${cardImage(property)}</a>
       <div class="mt-4 flex items-center gap-2">
         <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
           ${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)}

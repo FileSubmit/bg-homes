@@ -152,7 +152,9 @@ async function renderRoute(pageSlot, onRouteChange) {
 
 export function initRouter({ pageSlot, onRouteChange }) {
   navigate = async (nextPath) => {
-    if (nextPath === window.location.pathname) {
+    const currentPath = window.location.pathname + window.location.search;
+
+    if (nextPath === currentPath) {
       return;
     }
 
@@ -178,7 +180,7 @@ export function initRouter({ pageSlot, onRouteChange }) {
     }
 
     event.preventDefault();
-    void navigate(url.pathname);
+    void navigate(url.pathname + url.search);
   });
 
   window.addEventListener('popstate', () => {

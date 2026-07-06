@@ -187,8 +187,8 @@ function renderUsers(root, profiles, propertiesByOwner) {
       (profile) => `
         <tr>
           <td class="py-3 pr-4 font-medium text-slate-900">${escapeHtml(fullName(profile))}</td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(profile.email ?? '—')}</td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(profile.phone ?? '—')}</td>
+          <td class="py-3 pr-4 text-slate-600">${escapeHtml(profile.email ?? '-')}</td>
+          <td class="py-3 pr-4 text-slate-600">${escapeHtml(profile.phone ?? '-')}</td>
           <td class="py-3 pr-4">${roleBadge(profile.role)}</td>
           <td class="py-3 pr-4 text-slate-600">${propertiesByOwner.get(profile.id) ?? 0}</td>
           <td class="py-3 pr-4 text-slate-500">${escapeHtml(formatDate(profile.created_at))}</td>

@@ -117,24 +117,24 @@ export const inquiryStatusLabels = {
 
 export function formatDate(value) {
   if (!value) {
-    return '—';
+    return '-';
   }
 
   try {
     return new Intl.DateTimeFormat('bg-BG', { dateStyle: 'medium' }).format(new Date(value));
   } catch {
-    return '—';
+    return '-';
   }
 }
 
 export function formatDateTime(value) {
   if (!value) {
-    return '—';
+    return '-';
   }
 
   try {
     return new Intl.DateTimeFormat('bg-BG', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
   } catch {
-    return '—';
+    return '-';
   }
 }

@@ -96,7 +96,7 @@ async function loadProfile(userId) {
 
 // The on_auth_user_created DB trigger normally creates the profile row. If it
 // is missing (e.g. the trigger migration is not applied yet), create it from
-// the client — RLS only allows inserting your own row with role 'user'.
+// the client - RLS only allows inserting your own row with role 'user'.
 async function ensureProfile(user) {
   const existing = await loadProfile(user.id);
 
@@ -163,8 +163,8 @@ function ensureSubscription() {
 
   // The callback can fire while the client's own internal initialization
   // (session recovery on a fresh page load) is still resolving. Calling back
-  // into the client here — refreshAuthState() awaits supabase.auth.getUser()
-  // — would then deadlock waiting on that same in-flight initialization.
+  // into the client here - refreshAuthState() awaits supabase.auth.getUser()
+  // - would then deadlock waiting on that same in-flight initialization.
   // Deferring to a new task lets initialization finish first (this is
   // Supabase's own documented workaround for this exact reentrancy).
   authSubscription = supabase.auth.onAuthStateChange((event) => {

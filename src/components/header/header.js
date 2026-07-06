@@ -33,9 +33,7 @@ function getInitials(label) {
   return `${first}${second}`.toUpperCase();
 }
 
-function navLink(href, label, pathname, { mobile = false } = {}) {
-  const isActive = href === pathname || (href === '/properties' && pathname.startsWith('/properties/'));
-
+function navAnchor(href, label, isActive, { mobile = false } = {}) {
   const desktopClasses = `relative py-2 text-sm font-semibold transition after:absolute after:-bottom-[1px] after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-emerald-500 after:transition-transform after:content-[''] ${
     isActive ? 'text-slate-900 after:scale-x-100' : 'text-slate-600 hover:text-slate-900 hover:after:scale-x-100'
   }`;
@@ -54,6 +52,18 @@ function navLink(href, label, pathname, { mobile = false } = {}) {
       ${label}
     </a>
   `;
+}
+
+function navLink(href, label, pathname, options = {}) {
+  const isActive = href === pathname;
+
+  return navAnchor(href, label, isActive, options);
+}
+
+function transactionNavLink(transactionType, label, pathname, activeTransactionType, options = {}) {
+  const isActive = pathname.startsWith('/properties') && activeTransactionType === transactionType;
+
+  return navAnchor(`/properties?transaction_type=${transactionType}`, label, isActive, options);
 }
 
 function authLinksDesktop(authState, pathname) {
@@ -154,7 +164,9 @@ function authLinksMobile(authState, pathname) {
   `;
 }
 
-export function renderHeader(pathname = window.location.pathname, authState = getAuthState()) {
+export function renderHeader(pathname = window.location.pathname, authState = getAuthState(), search = window.location.search) {
+  const activeTransactionType = new URLSearchParams(search).get('transaction_type');
+
   return `
     <header data-site-header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
       <div class="border-b border-slate-100 bg-slate-900 text-slate-300">
@@ -188,7 +200,8 @@ export function renderHeader(pathname = window.location.pathname, authState = ge
 
         <nav class="hidden items-center gap-6 md:flex">
           ${navLink('/', 'Начало', pathname)}
-          ${navLink('/properties', 'Имоти', pathname)}
+          ${transactionNavLink('sale', 'Продажби', pathname, activeTransactionType)}
+          ${transactionNavLink('rent', 'Наеми', pathname, activeTransactionType)}
         </nav>
 
         <div class="hidden items-center gap-3 md:flex">
@@ -210,7 +223,8 @@ export function renderHeader(pathname = window.location.pathname, authState = ge
       <nav id="primary-nav" data-nav-menu class="hidden border-t border-slate-100 bg-white px-4 pb-4 pt-2 md:hidden">
         <div class="flex flex-col gap-1">
           ${navLink('/', 'Начало', pathname, { mobile: true })}
-          ${navLink('/properties', 'Имоти', pathname, { mobile: true })}
+          ${transactionNavLink('sale', 'Продажби', pathname, activeTransactionType, { mobile: true })}
+          ${transactionNavLink('rent', 'Наеми', pathname, activeTransactionType, { mobile: true })}
           <div class="my-1 border-t border-slate-100"></div>
           ${authLinksMobile(authState, pathname)}
         </div>

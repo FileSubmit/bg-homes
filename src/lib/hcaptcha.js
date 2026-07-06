@@ -23,7 +23,7 @@ function waitForHcaptcha(timeoutMs = 10000) {
   });
 }
 
-// The api.js script is loaded once, globally, in index.html <head> — but this
+// The api.js script is loaded once, globally, in index.html <head> - but this
 // is an SPA, so the .h-captcha container for a given page doesn't exist in
 // the DOM until the router renders it, well after hCaptcha's own implicit
 // auto-scan already ran. Explicit rendering (render=explicit in the script
