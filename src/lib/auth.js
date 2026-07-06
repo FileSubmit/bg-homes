@@ -161,16 +161,24 @@ function ensureSubscription() {
     return;
   }
 
-  authSubscription = supabase.auth.onAuthStateChange(async (event) => {
-    if (event === 'PASSWORD_RECOVERY') {
-      setState({ recoveryMode: true });
-    }
+  // The callback can fire while the client's own internal initialization
+  // (session recovery on a fresh page load) is still resolving. Calling back
+  // into the client here — refreshAuthState() awaits supabase.auth.getUser()
+  // — would then deadlock waiting on that same in-flight initialization.
+  // Deferring to a new task lets initialization finish first (this is
+  // Supabase's own documented workaround for this exact reentrancy).
+  authSubscription = supabase.auth.onAuthStateChange((event) => {
+    setTimeout(async () => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setState({ recoveryMode: true });
+      }
 
-    if (event === 'SIGNED_OUT') {
-      setState({ recoveryMode: false });
-    }
+      if (event === 'SIGNED_OUT') {
+        setState({ recoveryMode: false });
+      }
 
-    await refreshAuthState();
+      await refreshAuthState();
+    }, 0);
   });
 }
 
