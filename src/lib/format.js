@@ -103,3 +103,26 @@ export const currencyLabels = {
   EUR: 'EUR',
   USD: 'USD',
 };
+
+export const roleLabels = {
+  user: 'Потребител',
+  admin: 'Администратор',
+};
+
+export const inquiryStatusLabels = {
+  unread: 'Непрочетено',
+  read: 'Прочетено',
+  replied: 'Отговорено',
+};
+
+export function formatDate(value) {
+  if (!value) {
+    return '—';
+  }
+
+  try {
+    return new Intl.DateTimeFormat('bg-BG', { dateStyle: 'medium' }).format(new Date(value));
+  } catch {
+    return '—';
+  }
+}
