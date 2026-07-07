@@ -11,9 +11,16 @@ import {
   statusLabels,
   transactionTypeLabels,
 } from '../../lib/format.js';
-import { fetchFeatures, fetchPropertyById, sortedPhotos } from '../../lib/properties.js';
+import {
+  fetchFeatures,
+  fetchOwnerProperties,
+  fetchPropertyById,
+  fetchSimilarProperties,
+  sortedPhotos,
+} from '../../lib/properties.js';
 import { sendPropertyMessage } from '../../lib/messages.js';
 import { refreshUnreadBadge } from '../../components/header/header.js';
+import { propertyCard } from '../../components/property-card/property-card.js';
 
 function notFoundMarkup() {
   return `
@@ -156,7 +163,22 @@ function messageFormMarkup(property, authState) {
   `;
 }
 
-function propertyDetailsMarkup(property, featureNamesById, authState) {
+function relatedPropertiesSection(heading, properties) {
+  if (!properties || properties.length === 0) {
+    return '';
+  }
+
+  return `
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">${heading}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        ${properties.map(propertyCard).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function propertyDetailsMarkup(property, featureNamesById, authState, relatedProperties = {}) {
   const isOwner = Boolean(authState?.user) && property.owner_id === authState.user.id;
   const canManage = isOwner || Boolean(authState?.isAdmin);
   const location = [property.address, property.neighborhood, property.city, property.region]
@@ -221,6 +243,8 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
       </div>
       ${sidebarBlocks ? `<aside class="space-y-6 lg:sticky lg:top-24">${sidebarBlocks}</aside>` : ''}
     </div>
+    ${relatedPropertiesSection('Още имоти в района', relatedProperties.similar)}
+    ${relatedPropertiesSection('Други обяви от този потребител', relatedProperties.byOwner)}
   `;
 }
 
@@ -313,7 +337,12 @@ export function hydrate(root, params, { authState } = {}) {
 
     const featureNamesById = new Map(features.map((feature) => [feature.id, feature.name]));
 
-    details.innerHTML = propertyDetailsMarkup(property, featureNamesById, authState);
+    const [{ data: similar }, { data: byOwner }] = await Promise.all([
+      fetchSimilarProperties(property, { limit: 3 }),
+      fetchOwnerProperties(property.owner_id, { excludeId: property.id, limit: 3 }),
+    ]);
+
+    details.innerHTML = propertyDetailsMarkup(property, featureNamesById, authState, { similar, byOwner });
 
     const isOwner = Boolean(authState?.user) && property.owner_id === authState.user.id;
 

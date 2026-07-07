@@ -142,6 +142,54 @@ export async function fetchPropertyById(id) {
   return { data, error };
 }
 
+export async function fetchSimilarProperties(property, { limit = 3 } = {}) {
+  if (!supabase) {
+    const data = sampleProperties
+      .filter((candidate) => candidate.id !== property.id && candidate.status === 'active')
+      .filter(
+        (candidate) =>
+          (property.neighborhood && candidate.neighborhood === property.neighborhood) ||
+          candidate.city === property.city,
+      )
+      .slice(0, limit);
+
+    return { data, error: null };
+  }
+
+  let query = supabase.from('properties').select(PROPERTY_SELECT).eq('status', 'active').neq('id', property.id);
+
+  query = property.neighborhood
+    ? query.or(`neighborhood.eq.${property.neighborhood},city.eq.${property.city}`)
+    : query.eq('city', property.city);
+
+  query = query.order('created_at', { ascending: false }).limit(limit);
+
+  const { data, error } = await query;
+
+  return { data: data ?? [], error };
+}
+
+export async function fetchOwnerProperties(ownerId, { excludeId, limit = 3 } = {}) {
+  if (!supabase) {
+    const data = sampleProperties
+      .filter((candidate) => candidate.owner_id === ownerId && candidate.id !== excludeId && candidate.status === 'active')
+      .slice(0, limit);
+
+    return { data, error: null };
+  }
+
+  const { data, error } = await supabase
+    .from('properties')
+    .select(PROPERTY_SELECT)
+    .eq('status', 'active')
+    .eq('owner_id', ownerId)
+    .neq('id', excludeId)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  return { data: data ?? [], error };
+}
+
 export async function fetchOwnProperties(userId) {
   if (!supabase) {
     return { data: [], error: new Error('Supabase не е конфигуриран.') };
