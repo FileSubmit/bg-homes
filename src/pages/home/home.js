@@ -1,3 +1,4 @@
+import './home.scss';
 import template from './home.html?raw';
 import { propertyCard } from '../../components/property-card/property-card.js';
 import { fetchActiveProperties } from '../../lib/properties.js';
@@ -36,8 +37,8 @@ function hydrateHeroSearch(root) {
     transactionValue = value;
     toggleButtons.forEach((button) => {
       const isActive = button.dataset.transactionValue === value;
-      button.className = `rounded-full px-4 py-2 text-sm font-semibold transition ${
-        isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+      button.className = `rounded-pill px-3 py-2 fs-sm fw-semibold transition ${
+        isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover-bg-slate-200'
       }`;
     });
   };

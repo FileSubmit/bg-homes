@@ -1,3 +1,4 @@
+import './terms.scss';
 import template from './terms.html?raw';
 
 export function render() {

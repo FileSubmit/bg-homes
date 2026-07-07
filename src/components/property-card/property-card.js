@@ -1,3 +1,4 @@
+import './property-card.scss';
 import {
   escapeHtml,
   formatPrice,
@@ -12,7 +13,7 @@ function cardImage(property) {
 
   if (!photoUrl) {
     return `
-      <div class="flex h-44 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-medium text-slate-400">
+      <div class="property-card-photo d-flex align-items-center justify-content-center rounded-5 bg-gradient-slate-100-200 fs-sm fw-medium text-slate-400">
         Няма снимка
       </div>
     `;
@@ -22,7 +23,7 @@ function cardImage(property) {
     <img
       src="${escapeHtml(photoUrl)}"
       alt="${escapeHtml(property.title)}"
-      class="h-44 w-full rounded-2xl object-cover"
+      class="property-card-photo w-100 rounded-5 object-fit-cover"
       loading="lazy"
     />
   `;
@@ -34,24 +35,24 @@ export function propertyCard(property) {
   const bedrooms = property.bedrooms ?? '-';
 
   return `
-    <article class="flex flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg">
-      <a href="/properties/${escapeHtml(property.id)}" class="block">${cardImage(property)}</a>
-      <div class="mt-4 flex items-center gap-2">
-        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+    <article class="property-card d-flex flex-column rounded-3xl bg-white p-7 shadow-sm ring-1 ring-slate-200 transition hover-lift hover-shadow-lg">
+      <a href="/properties/${escapeHtml(property.id)}" class="d-block">${cardImage(property)}</a>
+      <div class="mt-3 d-flex align-items-center gap-2">
+        <span class="rounded-pill bg-emerald-50 px-6 py-1 fs-xs fw-semibold text-uppercase tracking-wide text-emerald-700">
           ${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)}
         </span>
-        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+        <span class="rounded-pill bg-slate-100 px-6 py-1 fs-xs fw-semibold text-uppercase tracking-wide text-slate-600">
           ${escapeHtml(propertyTypeLabels[property.property_type] ?? property.property_type)}
         </span>
       </div>
-      <h2 class="mt-3 text-xl font-semibold text-slate-900">${escapeHtml(property.title)}</h2>
-      <p class="mt-1 text-sm text-slate-500">${location}</p>
-      <p class="mt-3 text-2xl font-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
-      <dl class="mt-3 grid grid-cols-2 gap-3 text-sm text-slate-600">
-        <div><dt class="font-medium text-slate-900">Спални</dt><dd>${escapeHtml(bedrooms)}</dd></div>
-        <div><dt class="font-medium text-slate-900">Площ</dt><dd>${area}</dd></div>
+      <h2 class="mt-6 fs-5 fw-semibold text-slate-900">${escapeHtml(property.title)}</h2>
+      <p class="mt-1 fs-sm text-slate-500">${location}</p>
+      <p class="mt-6 fs-4 fw-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
+      <dl class="mt-6 row row-cols-2 g-6 fs-sm text-slate-600">
+        <div class="col"><dt class="fw-medium text-slate-900">Спални</dt><dd>${escapeHtml(bedrooms)}</dd></div>
+        <div class="col"><dt class="fw-medium text-slate-900">Площ</dt><dd>${area}</dd></div>
       </dl>
-      <a class="mt-5 inline-flex self-start rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties/${escapeHtml(property.id)}">
+      <a class="mt-11 d-inline-flex align-self-start rounded-pill bg-slate-900 px-7 py-18 fs-sm fw-semibold text-white transition hover-bg-slate-800" href="/properties/${escapeHtml(property.id)}">
         Виж детайли
       </a>
     </article>

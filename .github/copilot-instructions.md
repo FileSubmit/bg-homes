@@ -1,17 +1,17 @@
 # Project Context
 Project Name: BG Homes
 Description: A real estate listings web application where users can view, add, edit, and delete property listings. 
-Tech Stack: HTML5, CSS3, Vanilla JavaScript, Tailwind CSS, Vite, Node.js, npm, Supabase (Auth, Database, Storage).
+Tech Stack: HTML5, CSS3, Vanilla JavaScript, Bootstrap 5, Vite, Node.js, npm, Supabase (Auth, Database, Storage).
 Architecture: Client-server architecture communicating with Supabase REST API/Client. Multi-page web application.
 
 # Core Development Rules & Constraints
 
 ## 1. Frontend & Tech Stack
 - STRICT RULE: Use ONLY Vanilla JavaScript. DO NOT use TypeScript, React, Vue, Angular, or any other JS UI frameworks.
-- Use Tailwind CSS for all layout, styling, and UI components. Apply utility classes directly within the HTML files. 
-- Custom CSS should be extremely minimal (mostly for base layer overrides or complex animations) and kept in separate files.
-- Project is built and served using Vite. Assist with Tailwind PostCSS configuration if needed.
-- PACKAGE MANAGEMENT: Use `npm` for installing and managing all project dependencies (e.g., `@supabase/supabase-js`, `vite`, `tailwindcss`).
+- Use Bootstrap 5 for all layout, styling, and UI components. Apply utility/component classes directly within the HTML files and JS-rendered templates.
+- Bootstrap is built from Sass (`src/styles/main.scss`), with its theme variables overridden to match the app's palette (see `src/styles/_tokens.scss`) and a small custom utility layer for the few things Bootstrap has no class for (exact color shades, extended spacing steps, tracking/letter-spacing, etc). Per-page/component bespoke rules go in a co-located `<name>.scss` imported by that file's `.js` — keep custom CSS scoped and minimal.
+- Project is built and served using Vite (Sass support via the `sass` package, no PostCSS/Tailwind).
+- PACKAGE MANAGEMENT: Use `npm` for installing and managing all project dependencies (e.g., `@supabase/supabase-js`, `vite`, `bootstrap`, `sass`).
 
 ## 2. Architecture & Navigation
 - MULTI-PAGE ARCHITECTURE: Every screen must be a separate `.html` file (e.g., `index.html`, `login.html`, `register.html`, `properties.html`, `admin.html`, `details.html`).
@@ -32,4 +32,4 @@ Architecture: Client-server architecture communicating with Supabase REST API/Cl
 - When generating code for new pages, remind me to update the `vite.config.js` to support multiple HTML entry points if necessary.
 - When suggesting package installations, provide the exact `npm install` commands.
 - When suggesting database changes, always provide the raw SQL for the Supabase migration file.
-- Ensure all UI suggestions are responsive (mobile-first) using Tailwind's responsive utility variants (e.g., `md:`, `lg:`).
+- Ensure all UI suggestions are responsive (mobile-first) using Bootstrap's responsive utility infixes (e.g., `d-md-flex`, `col-lg-4`).

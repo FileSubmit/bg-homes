@@ -1,3 +1,4 @@
+import './admin.scss';
 import template from './admin.html?raw';
 import { buildAdminStats, fetchAllInquiries, fetchAllPropertiesForAdmin, fetchAllProfiles } from '../../lib/admin.js';
 import { deleteProperty, setPropertyStatus } from '../../lib/properties.js';
@@ -24,9 +25,9 @@ function fullName(person) {
 
 function statCard(label, value) {
   return `
-    <div class="rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200">
-      <p class="text-sm text-slate-500">${escapeHtml(label)}</p>
-      <p class="mt-2 text-2xl font-semibold text-slate-900">${escapeHtml(String(value))}</p>
+    <div class="col rounded-5 bg-slate-50 p-7 ring-1 ring-slate-200">
+      <p class="fs-sm text-slate-500">${escapeHtml(label)}</p>
+      <p class="mt-2 fs-4 fw-semibold text-slate-900">${escapeHtml(String(value))}</p>
     </div>
   `;
 }
@@ -36,30 +37,30 @@ function breakdownRow(label, count, total) {
 
   return `
     <div>
-      <div class="flex items-center justify-between text-sm">
+      <div class="d-flex align-items-center justify-content-between fs-sm">
         <span class="text-slate-600">${escapeHtml(label)}</span>
-        <span class="font-semibold text-slate-900">${count}</span>
+        <span class="fw-semibold text-slate-900">${count}</span>
       </div>
-      <div class="mt-1 h-2 rounded-full bg-slate-100">
-        <div class="h-2 rounded-full bg-emerald-500" style="width: ${percent}%"></div>
+      <div class="mt-1 h-2 rounded-pill bg-slate-100">
+        <div class="h-2 rounded-pill bg-emerald-500" style="width: ${percent}%"></div>
       </div>
     </div>
   `;
 }
 
 function emptyState(message) {
-  return `<p class="text-sm text-slate-500">${escapeHtml(message)}</p>`;
+  return `<p class="fs-sm text-slate-500">${escapeHtml(message)}</p>`;
 }
 
 function badge(text, tone) {
   const tones = {
-    emerald: 'bg-emerald-50 text-emerald-700',
-    amber: 'bg-amber-100 text-amber-800',
-    slate: 'bg-slate-200 text-slate-700',
-    rose: 'bg-rose-50 text-rose-700',
+    emerald: 'text-bg-success',
+    amber: 'text-bg-warning',
+    slate: 'text-bg-secondary',
+    rose: 'text-bg-danger',
   };
 
-  return `<span class="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${tones[tone] ?? tones.slate}">${escapeHtml(text)}</span>`;
+  return `<span class="badge rounded-pill text-uppercase tracking-wide ${tones[tone] ?? tones.slate}">${escapeHtml(text)}</span>`;
 }
 
 function statusBadge(status) {
@@ -85,7 +86,7 @@ function setActiveTab(root, tab) {
   });
 
   root.querySelectorAll('[data-tab-panel]').forEach((panel) => {
-    panel.classList.toggle('hidden', panel.dataset.tabPanel !== tab);
+    panel.classList.toggle('d-none', panel.dataset.tabPanel !== tab);
   });
 }
 
@@ -133,12 +134,12 @@ function renderOverview(root, { profiles, properties, inquiries, stats }) {
           .slice(0, 5)
           .map(
             (profile) => `
-              <div class="flex items-center justify-between gap-3 text-sm">
+              <div class="d-flex align-items-center justify-content-between gap-6 fs-sm">
                 <div class="min-w-0">
-                  <p class="truncate font-medium text-slate-900">${escapeHtml(fullName(profile))}</p>
-                  <p class="truncate text-slate-500">${escapeHtml(profile.email ?? '')}</p>
+                  <p class="text-truncate fw-medium text-slate-900">${escapeHtml(fullName(profile))}</p>
+                  <p class="text-truncate text-slate-500">${escapeHtml(profile.email ?? '')}</p>
                 </div>
-                <span class="shrink-0 text-xs text-slate-400">${escapeHtml(formatDate(profile.created_at))}</span>
+                <span class="flex-shrink-0 fs-xs text-slate-400">${escapeHtml(formatDate(profile.created_at))}</span>
               </div>
             `
           )
@@ -152,12 +153,12 @@ function renderOverview(root, { profiles, properties, inquiries, stats }) {
           .slice(0, 5)
           .map(
             (property) => `
-              <div class="flex items-center justify-between gap-3 text-sm">
+              <div class="d-flex align-items-center justify-content-between gap-6 fs-sm">
                 <div class="min-w-0">
-                  <a href="/properties/${escapeHtml(property.id)}" class="block truncate font-medium text-slate-900 hover:text-emerald-700">${escapeHtml(property.title)}</a>
-                  <p class="truncate text-slate-500">${escapeHtml(property.city)} · ${formatPrice(property.price, property.currency)}</p>
+                  <a href="/properties/${escapeHtml(property.id)}" class="d-block text-truncate fw-medium text-slate-900 hover-text-emerald-700">${escapeHtml(property.title)}</a>
+                  <p class="text-truncate text-slate-500">${escapeHtml(property.city)} · ${formatPrice(property.price, property.currency)}</p>
                 </div>
-                <span class="shrink-0 text-xs text-slate-400">${escapeHtml(formatDate(property.created_at))}</span>
+                <span class="flex-shrink-0 fs-xs text-slate-400">${escapeHtml(formatDate(property.created_at))}</span>
               </div>
             `
           )
@@ -178,7 +179,7 @@ function renderUsers(root, profiles, propertiesByOwner) {
   const tbody = root.querySelector('[data-users-table-body]');
 
   if (profiles.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-500">Няма намерени потребители.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-slate-500">Няма намерени потребители.</td></tr>`;
     return;
   }
 
@@ -186,12 +187,12 @@ function renderUsers(root, profiles, propertiesByOwner) {
     .map(
       (profile) => `
         <tr>
-          <td class="py-3 pr-4 font-medium text-slate-900">${escapeHtml(fullName(profile))}</td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(profile.email ?? '-')}</td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(profile.phone ?? '-')}</td>
-          <td class="py-3 pr-4">${roleBadge(profile.role)}</td>
-          <td class="py-3 pr-4 text-slate-600">${propertiesByOwner.get(profile.id) ?? 0}</td>
-          <td class="py-3 pr-4 text-slate-500">${escapeHtml(formatDate(profile.created_at))}</td>
+          <td class="py-6 pe-3 fw-medium text-slate-900">${escapeHtml(fullName(profile))}</td>
+          <td class="py-6 pe-3 text-slate-600">${escapeHtml(profile.email ?? '-')}</td>
+          <td class="py-6 pe-3 text-slate-600">${escapeHtml(profile.phone ?? '-')}</td>
+          <td class="py-6 pe-3">${roleBadge(profile.role)}</td>
+          <td class="py-6 pe-3 text-slate-600">${propertiesByOwner.get(profile.id) ?? 0}</td>
+          <td class="py-6 pe-3 text-slate-500">${escapeHtml(formatDate(profile.created_at))}</td>
         </tr>
       `
     )
@@ -202,7 +203,7 @@ function renderProperties(root, properties) {
   const tbody = root.querySelector('[data-properties-table-body]');
 
   if (properties.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="py-6 text-center text-slate-500">Няма намерени имоти.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="py-4 text-center text-slate-500">Няма намерени имоти.</td></tr>`;
     return;
   }
 
@@ -212,21 +213,21 @@ function renderProperties(root, properties) {
 
       return `
         <tr>
-          <td class="py-3 pr-4">
-            <a href="/properties/${escapeHtml(property.id)}" class="font-medium text-slate-900 hover:text-emerald-700">${escapeHtml(property.title)}</a>
+          <td class="py-6 pe-3">
+            <a href="/properties/${escapeHtml(property.id)}" class="fw-medium text-slate-900 hover-text-emerald-700">${escapeHtml(property.title)}</a>
           </td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(fullName(property.owner))}</td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)} · ${escapeHtml(propertyTypeLabels[property.property_type] ?? property.property_type)}</td>
-          <td class="py-3 pr-4 text-slate-600">${formatPrice(property.price, property.currency)}</td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(property.city)}</td>
-          <td class="py-3 pr-4">${statusBadge(property.status)}</td>
-          <td class="py-3 pr-4 text-slate-500">${escapeHtml(formatDate(property.created_at))}</td>
-          <td class="py-3 pr-4">
-            <div class="flex flex-wrap gap-2">
-              <button type="button" data-action="toggle" data-id="${escapeHtml(property.id)}" data-status="${escapeHtml(property.status)}" class="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900">
+          <td class="py-6 pe-3 text-slate-600">${escapeHtml(fullName(property.owner))}</td>
+          <td class="py-6 pe-3 text-slate-600">${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)} · ${escapeHtml(propertyTypeLabels[property.property_type] ?? property.property_type)}</td>
+          <td class="py-6 pe-3 text-slate-600">${formatPrice(property.price, property.currency)}</td>
+          <td class="py-6 pe-3 text-slate-600">${escapeHtml(property.city)}</td>
+          <td class="py-6 pe-3">${statusBadge(property.status)}</td>
+          <td class="py-6 pe-3 text-slate-500">${escapeHtml(formatDate(property.created_at))}</td>
+          <td class="py-6 pe-3">
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" data-action="toggle" data-id="${escapeHtml(property.id)}" data-status="${escapeHtml(property.status)}" class="btn rounded-pill border-slate-300 px-6 py-17 fs-xs fw-medium text-slate-700 transition hover-border-slate-900 hover-text-slate-900">
                 ${toggleLabel}
               </button>
-              <button type="button" data-action="delete" data-id="${escapeHtml(property.id)}" data-title="${escapeHtml(property.title)}" class="rounded-full border border-rose-200 px-3 py-1.5 text-xs font-medium text-rose-600 transition hover:border-rose-500 hover:text-rose-700">
+              <button type="button" data-action="delete" data-id="${escapeHtml(property.id)}" data-title="${escapeHtml(property.title)}" class="btn rounded-pill border-rose-200 px-6 py-17 fs-xs fw-medium text-rose-600 transition hover-border-rose-500 hover-text-rose-700">
                 Изтрий
               </button>
             </div>
@@ -241,7 +242,7 @@ function renderInquiries(root, inquiries) {
   const tbody = root.querySelector('[data-inquiries-table-body]');
 
   if (inquiries.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-500">Няма запитвания.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">Няма запитвания.</td></tr>`;
     return;
   }
 
@@ -252,14 +253,14 @@ function renderInquiries(root, inquiries) {
 
       return `
         <tr>
-          <td class="py-3 pr-4 font-medium text-slate-900">${escapeHtml(inquiry.property?.title ?? 'Изтрит имот')}</td>
-          <td class="py-3 pr-4 text-slate-600">
+          <td class="py-6 pe-3 fw-medium text-slate-900">${escapeHtml(inquiry.property?.title ?? 'Изтрит имот')}</td>
+          <td class="py-6 pe-3 text-slate-600">
             <p>${escapeHtml(inquiry.sender_name)}</p>
-            <p class="text-xs text-slate-400">${escapeHtml(inquiry.sender_email)} · ${escapeHtml(inquiry.sender_phone)}</p>
+            <p class="fs-xs text-slate-400">${escapeHtml(inquiry.sender_email)} · ${escapeHtml(inquiry.sender_phone)}</p>
           </td>
-          <td class="py-3 pr-4 text-slate-600">${escapeHtml(truncated)}</td>
-          <td class="py-3 pr-4">${inquiryStatusBadge(inquiry.status)}</td>
-          <td class="py-3 pr-4 text-slate-500">${escapeHtml(formatDate(inquiry.created_at))}</td>
+          <td class="py-6 pe-3 text-slate-600">${escapeHtml(truncated)}</td>
+          <td class="py-6 pe-3">${inquiryStatusBadge(inquiry.status)}</td>
+          <td class="py-6 pe-3 text-slate-500">${escapeHtml(formatDate(inquiry.created_at))}</td>
         </tr>
       `;
     })
@@ -270,13 +271,13 @@ function showError(root, message) {
   const errorSlot = root.querySelector('[data-admin-error]');
 
   if (!message) {
-    errorSlot.classList.add('hidden');
+    errorSlot.classList.add('d-none');
     errorSlot.textContent = '';
     return;
   }
 
   errorSlot.textContent = message;
-  errorSlot.classList.remove('hidden');
+  errorSlot.classList.remove('d-none');
 }
 
 export function hydrate(root, params, { authState }) {
@@ -295,7 +296,7 @@ export function hydrate(root, params, { authState }) {
       return;
     }
 
-    propertiesMessage.classList.toggle('hidden', !message);
+    propertiesMessage.classList.toggle('d-none', !message);
     propertiesMessage.textContent = message ?? '';
   };
 

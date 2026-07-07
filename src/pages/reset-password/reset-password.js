@@ -1,3 +1,4 @@
+import './reset-password.scss';
 import template from './reset-password.html?raw';
 import { getAuthState, updatePassword } from '../../lib/auth.js';
 import { navigateTo } from '../../router.js';
@@ -7,12 +8,12 @@ export function render() {
 
   if (!authState.user) {
     return `
-      <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Възстановяване на профил</p>
-          <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Нова парола</h1>
-          <p class="mt-4 text-slate-600">Първо отворете линка за нова парола от имейла си. След това ще можете да зададете нова парола тук.</p>
-          <a class="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white" href="/forgot-password">Заявка за линк</a>
+      <section class="mx-auto max-w-2xl px-3 py-13 px-sm-4 px-lg-9">
+        <div class="rounded-3xl bg-white p-9 shadow-sm ring-1 ring-slate-200 p-sm-11">
+          <p class="fs-sm fw-semibold text-uppercase tracking-widest-lg text-emerald-600">Възстановяване на профил</p>
+          <h1 class="mt-6 fs-3 fw-bold tracking-tight text-slate-900">Нова парола</h1>
+          <p class="mt-3 text-slate-600">Първо отворете линка за нова парола от имейла си. След това ще можете да зададете нова парола тук.</p>
+          <a class="mt-9 btn btn-primary rounded-pill px-4 py-6 fs-sm fw-semibold hover-bg-slate-800" href="/forgot-password">Заявка за линк</a>
         </div>
       </section>
     `;
@@ -29,12 +30,12 @@ function setMessage(root, message, tone = 'error') {
   }
 
   if (!message) {
-    messageSlot.classList.add('hidden');
+    messageSlot.classList.add('d-none');
     messageSlot.textContent = '';
     return;
   }
 
-  messageSlot.className = `mt-6 rounded-2xl px-4 py-3 text-sm ${tone === 'error' ? 'bg-rose-50 text-rose-700 ring-1 ring-rose-200' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'}`;
+  messageSlot.className = `alert ${tone === 'error' ? 'alert-danger' : 'alert-success'} mt-4 rounded-5 px-3 py-6 fs-sm`;
   messageSlot.textContent = message;
 }
 

@@ -1,3 +1,4 @@
+import './profile.scss';
 import template from './profile.html?raw';
 import { updateEmail, updatePassword, updateProfile } from '../../lib/auth.js';
 import { refreshUnreadBadge } from '../../components/header/header.js';
@@ -39,7 +40,7 @@ function setMessage(root, selector, message, tone = 'error') {
   }
 
   if (!message) {
-    messageSlot.classList.add('hidden');
+    messageSlot.classList.add('d-none');
     messageSlot.textContent = '';
     return;
   }
@@ -49,7 +50,7 @@ function setMessage(root, selector, message, tone = 'error') {
     success: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
   };
 
-  messageSlot.className = `mt-4 whitespace-pre-line rounded-2xl px-4 py-3 text-sm ${tones[tone] ?? tones.error}`;
+  messageSlot.className = `mt-3 whitespace-pre-line rounded-5 px-3 py-6 fs-sm ${tones[tone] ?? tones.error}`;
   messageSlot.textContent = message;
 }
 
@@ -62,7 +63,7 @@ function setActiveTab(root, tab) {
   });
 
   root.querySelectorAll('[data-tab-panel]').forEach((panel) => {
-    panel.classList.toggle('hidden', panel.dataset.tabPanel !== tab);
+    panel.classList.toggle('d-none', panel.dataset.tabPanel !== tab);
   });
 }
 
@@ -79,7 +80,7 @@ function statusBadge(status) {
   };
 
   return `
-    <span class="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${styles[status] ?? 'bg-slate-100 text-slate-600'}">
+    <span class="rounded-pill px-6 py-1 fs-xs fw-semibold text-uppercase tracking-wide ${styles[status] ?? 'bg-slate-100 text-slate-600'}">
       ${escapeHtml(statusLabels[status] ?? status)}
     </span>
   `;
@@ -88,33 +89,33 @@ function statusBadge(status) {
 function listingRow(property) {
   const photoUrl = sanitizeUrl(coverPhotoUrl(property));
   const thumb = photoUrl
-    ? `<img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(property.title)}" class="h-20 w-28 flex-none rounded-2xl object-cover" loading="lazy" />`
-    : '<div class="flex h-20 w-28 flex-none items-center justify-center rounded-2xl bg-slate-100 text-xs font-medium text-slate-400">Няма снимка</div>';
+    ? `<img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(property.title)}" class="h-20 w-28 flex-grow-0 flex-shrink-0 rounded-5 object-fit-cover" loading="lazy" />`
+    : '<div class="d-flex h-20 w-28 flex-grow-0 flex-shrink-0 align-items-center justify-content-center rounded-5 bg-slate-100 fs-xs fw-medium text-slate-400">Няма снимка</div>';
 
   const toggleLabel = property.status === 'active' ? 'Скрий' : 'Публикувай';
 
   return `
-    <article class="flex flex-wrap items-center gap-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+    <article class="d-flex flex-wrap align-items-center gap-3 rounded-3xl bg-white p-7 shadow-sm ring-1 ring-slate-200">
       ${thumb}
-      <div class="min-w-0 flex-1">
-        <div class="flex flex-wrap items-center gap-2">
+      <div class="min-w-0 flex-fill">
+        <div class="d-flex flex-wrap align-items-center gap-2">
           ${statusBadge(property.status)}
-          <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <span class="fs-xs fw-semibold text-uppercase tracking-wide text-slate-500">
             ${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)} ·
             ${escapeHtml(propertyTypeLabels[property.property_type] ?? property.property_type)}
           </span>
         </div>
-        <a class="mt-2 block truncate text-lg font-semibold text-slate-900 transition hover:text-emerald-700" href="/properties/${escapeHtml(property.id)}">
+        <a class="mt-2 d-block text-truncate fs-6 fw-semibold text-slate-900 transition hover-text-emerald-700" href="/properties/${escapeHtml(property.id)}">
           ${escapeHtml(property.title)}
         </a>
-        <p class="mt-1 text-sm text-slate-500">${escapeHtml([property.city, property.neighborhood].filter(Boolean).join(', '))} · ${formatPrice(property.price, property.currency)}</p>
+        <p class="mt-1 fs-sm text-slate-500">${escapeHtml([property.city, property.neighborhood].filter(Boolean).join(', '))} · ${formatPrice(property.price, property.currency)}</p>
       </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <a class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Редакция</a>
-        <button type="button" data-action="toggle" data-id="${escapeHtml(property.id)}" data-status="${escapeHtml(property.status)}" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-900 hover:text-slate-900">
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <a class="rounded-pill border border-slate-300 px-3 py-2 fs-sm fw-medium text-slate-700 transition hover-border-slate-900 hover-text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Редакция</a>
+        <button type="button" data-action="toggle" data-id="${escapeHtml(property.id)}" data-status="${escapeHtml(property.status)}" class="rounded-pill border border-slate-300 px-3 py-2 fs-sm fw-medium text-slate-700 transition hover-border-slate-900 hover-text-slate-900">
           ${toggleLabel}
         </button>
-        <button type="button" data-action="delete" data-id="${escapeHtml(property.id)}" data-title="${escapeHtml(property.title)}" class="rounded-full border border-rose-200 px-4 py-2 text-sm font-medium text-rose-600 transition hover:border-rose-500 hover:text-rose-700">
+        <button type="button" data-action="delete" data-id="${escapeHtml(property.id)}" data-title="${escapeHtml(property.title)}" class="rounded-pill border border-rose-200 px-3 py-2 fs-sm fw-medium text-rose-600 transition hover-border-rose-500 hover-text-rose-700">
           Изтрий
         </button>
       </div>
@@ -152,18 +153,18 @@ export function hydrate(root, params, { authState }) {
 
       if (unread > 0) {
         messagesTabBadge.textContent = unread > 9 ? '9+' : String(unread);
-        messagesTabBadge.classList.remove('hidden');
-        messagesTabBadge.classList.add('flex');
+        messagesTabBadge.classList.remove('d-none');
+        messagesTabBadge.classList.add('d-flex');
       } else {
         messagesTabBadge.textContent = '';
-        messagesTabBadge.classList.add('hidden');
-        messagesTabBadge.classList.remove('flex');
+        messagesTabBadge.classList.add('d-none');
+        messagesTabBadge.classList.remove('d-flex');
       }
     };
 
     const renderConversationsList = () => {
       if (conversations.length === 0) {
-        conversationsList.innerHTML = '<p class="p-4 text-sm text-slate-500">Все още нямате съобщения.</p>';
+        conversationsList.innerHTML = '<p class="p-3 fs-sm text-slate-500">Все още нямате съобщения.</p>';
         return;
       }
 
@@ -178,14 +179,14 @@ export function hydrate(root, params, { authState }) {
             <button
               type="button"
               data-conversation-id="${escapeHtml(conversation.id)}"
-              class="flex w-full flex-col gap-1 border-b border-slate-100 px-4 py-3 text-left transition hover:bg-slate-50 ${isActive ? 'bg-emerald-50' : ''}"
+              class="list-group-item list-group-item-action d-flex flex-column gap-1 text-start py-6 transition ${isActive ? 'bg-emerald-50' : ''}"
             >
-              <div class="flex items-center justify-between gap-2">
-                <span class="truncate text-sm font-semibold text-slate-900">${escapeHtml(participantName(other))}</span>
-                ${unread > 0 ? `<span class="flex h-5 min-w-[1.25rem] shrink-0 items-center justify-center rounded-full bg-rose-500 px-1.5 text-xs font-bold text-white">${unread > 9 ? '9+' : unread}</span>` : ''}
+              <div class="d-flex align-items-center justify-content-between gap-2">
+                <span class="text-truncate fs-sm fw-semibold text-slate-900">${escapeHtml(participantName(other))}</span>
+                ${unread > 0 ? `<span class="d-flex h-5 min-w-5 flex-shrink-0 align-items-center justify-content-center rounded-pill bg-rose-500 px-17 fs-xs fw-bold text-white">${unread > 9 ? '9+' : unread}</span>` : ''}
               </div>
-              <p class="truncate text-xs font-medium text-emerald-700">${escapeHtml(conversation.property?.title ?? 'Изтрит имот')}</p>
-              <p class="truncate text-sm text-slate-500">${escapeHtml(last?.body ?? '')}</p>
+              <p class="text-truncate fs-xs fw-medium text-emerald-700">${escapeHtml(conversation.property?.title ?? 'Изтрит имот')}</p>
+              <p class="text-truncate fs-sm text-slate-500">${escapeHtml(last?.body ?? '')}</p>
             </button>
           `;
         })
@@ -196,10 +197,10 @@ export function hydrate(root, params, { authState }) {
       const isOwn = message.sender_id === userId;
 
       return `
-        <div class="flex ${isOwn ? 'justify-end' : 'justify-start'}">
-          <div class="max-w-[75%] rounded-2xl px-4 py-2.5 text-sm ${isOwn ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-900'}">
+        <div class="d-flex ${isOwn ? 'justify-content-end' : 'justify-content-start'}">
+          <div class="profile-message-bubble rounded-5 px-3 py-18 fs-sm ${isOwn ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-900'}">
             <p class="whitespace-pre-line">${escapeHtml(message.body)}</p>
-            <p class="mt-1 text-[11px] ${isOwn ? 'text-slate-300' : 'text-slate-400'}">${escapeHtml(formatDateTime(message.created_at))}</p>
+            <p class="mt-1 profile-message-time ${isOwn ? 'text-slate-300' : 'text-slate-400'}">${escapeHtml(formatDateTime(message.created_at))}</p>
           </div>
         </div>
       `;
@@ -209,7 +210,7 @@ export function hydrate(root, params, { authState }) {
       const conversation = conversations.find((item) => item.id === selectedId);
 
       if (!conversation) {
-        conversationThread.innerHTML = '<p class="m-auto text-sm text-slate-500">Изберете разговор от списъка.</p>';
+        conversationThread.innerHTML = '<p class="m-auto fs-sm text-slate-500">Изберете разговор от списъка.</p>';
         return;
       }
 
@@ -217,16 +218,16 @@ export function hydrate(root, params, { authState }) {
       const messages = sortedMessages(conversation);
 
       conversationThread.innerHTML = `
-        <div class="border-b border-slate-100 p-4">
-          <p class="font-semibold text-slate-900">${escapeHtml(participantName(other))}</p>
-          <a href="/properties/${escapeHtml(conversation.property_id)}" class="text-sm text-emerald-700 hover:text-emerald-800">${escapeHtml(conversation.property?.title ?? 'Изтрит имот')}</a>
+        <div class="border-bottom border-slate-100 p-3">
+          <p class="fw-semibold text-slate-900">${escapeHtml(participantName(other))}</p>
+          <a href="/properties/${escapeHtml(conversation.property_id)}" class="fs-sm text-emerald-700 hover-text-emerald-800">${escapeHtml(conversation.property?.title ?? 'Изтрит имот')}</a>
         </div>
-        <div data-thread-messages class="flex-1 space-y-3 overflow-y-auto p-4">
+        <div data-thread-messages class="flex-fill space-y-3 overflow-y-auto p-3">
           ${messages.map(messageBubble).join('')}
         </div>
-        <form data-reply-form class="flex items-end gap-2 border-t border-slate-100 p-4">
-          <textarea name="body" rows="1" maxlength="4000" required placeholder="Напишете съобщение…" class="flex-1 resize-none rounded-2xl border border-slate-300 px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-slate-900"></textarea>
-          <button type="submit" class="shrink-0 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60">Изпрати</button>
+        <form data-reply-form class="d-flex align-items-end gap-2 border-top border-slate-100 p-3">
+          <textarea name="body" rows="1" maxlength="4000" required placeholder="Напишете съобщение…" class="flex-fill resize-none rounded-5 border border-slate-300 px-3 py-18 fs-sm text-slate-900 outline-none transition profile-reply-textarea"></textarea>
+          <button type="submit" class="flex-shrink-0 rounded-pill bg-emerald-600 px-7 py-18 fs-sm fw-semibold text-white transition hover-bg-emerald-500 profile-disabled-btn">Изпрати</button>
         </form>
       `;
 
@@ -291,7 +292,7 @@ export function hydrate(root, params, { authState }) {
       const { data, error } = await fetchConversations(userId);
 
       if (error) {
-        conversationsList.innerHTML = '<p class="p-4 text-sm text-rose-600">Съобщенията не можаха да бъдат заредени.</p>';
+        conversationsList.innerHTML = '<p class="p-3 fs-sm text-rose-600">Съобщенията не можаха да бъдат заредени.</p>';
         return;
       }
 

@@ -1,0 +1,56 @@
+@import "../../styles/tokens";
+
+.header-tagline {
+  font-size: 11px;
+}
+
+.header-badge-text {
+  font-size: 10px;
+}
+
+.header-badge-offset {
+  top: -.25rem;
+  right: -.25rem;
+}
+
+.header-greeting {
+  max-width: 8rem;
+}
+
+.site-nav-link {
+  position: relative;
+  padding-block: .5rem;
+  font-size: .875rem;
+  font-weight: 600;
+  color: $slate-600;
+  transition: color .15s ease-in-out;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    width: 100%;
+    background-color: $emerald-500;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .15s ease-in-out;
+  }
+
+  &:hover {
+    color: $slate-900;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &.active {
+    color: $slate-900;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}

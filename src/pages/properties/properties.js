@@ -1,3 +1,4 @@
+import './properties.scss';
 import template from './properties.html?raw';
 import { propertyCard } from '../../components/property-card/property-card.js';
 import { fetchActiveProperties } from '../../lib/properties.js';

@@ -1,0 +1,33 @@
+@import "../../styles/tokens";
+
+// Sidebar nav + content two-column layout (was `lg:grid-cols-[240px_1fr]`).
+.admin-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 992px) {
+  .admin-layout-grid {
+    grid-template-columns: 240px 1fr;
+  }
+
+  // Sticky sidebar nav (was `lg:sticky lg:top-24 lg:h-fit lg:overflow-visible`).
+  .admin-nav {
+    position: sticky;
+    top: 6rem;
+    height: fit-content;
+    overflow: visible;
+  }
+}
+
+// Responsive hero title (was `text-3xl sm:text-4xl`); Bootstrap's `fs-*` utilities
+// aren't responsive, so the two sizes are defined directly here.
+.admin-hero-title {
+  font-size: 1.875rem;
+}
+
+@media (min-width: 576px) {
+  .admin-hero-title {
+    font-size: 2.25rem;
+  }
+}

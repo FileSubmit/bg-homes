@@ -1,3 +1,4 @@
+import './add-property.scss';
 import template from './add-property.html?raw';
 import {
   constructionStageLabels,
@@ -41,7 +42,7 @@ function setMessage(root, message, tone = 'error') {
   }
 
   if (!message) {
-    messageSlot.classList.add('hidden');
+    messageSlot.classList.add('d-none');
     messageSlot.textContent = '';
     return;
   }
@@ -52,7 +53,7 @@ function setMessage(root, message, tone = 'error') {
     warning: 'bg-amber-50 text-amber-800 ring-1 ring-amber-200',
   };
 
-  messageSlot.className = `mt-6 whitespace-pre-line rounded-2xl px-4 py-3 text-sm ${tones[tone] ?? tones.error}`;
+  messageSlot.className = `mt-4 whitespace-pre-line rounded-5 px-3 py-6 fs-sm ${tones[tone] ?? tones.error}`;
   messageSlot.textContent = message;
 
   if (tone === 'error' || tone === 'warning') {
@@ -140,13 +141,13 @@ function citiesForRegionCode(regionCode) {
 }
 
 function showNeighborhoodSelect(root) {
-  root.querySelector('[data-neighborhood-select]').classList.remove('hidden');
-  root.querySelector('[data-neighborhood-input]').classList.add('hidden');
+  root.querySelector('[data-neighborhood-select]').classList.remove('d-none');
+  root.querySelector('[data-neighborhood-input]').classList.add('d-none');
 }
 
 function showNeighborhoodInput(root) {
-  root.querySelector('[data-neighborhood-select]').classList.add('hidden');
-  root.querySelector('[data-neighborhood-input]').classList.remove('hidden');
+  root.querySelector('[data-neighborhood-select]').classList.add('d-none');
+  root.querySelector('[data-neighborhood-input]').classList.remove('d-none');
 }
 
 function resetNeighborhood(root) {
@@ -385,12 +386,12 @@ function renderFeatures(root, features) {
     return;
   }
 
-  section.classList.remove('hidden');
+  section.classList.remove('d-none');
   list.innerHTML = features
     .map(
       (feature) => `
-        <label class="flex items-center gap-2 rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-700">
-          <input type="checkbox" name="features" value="${escapeHtml(feature.id)}" class="h-4 w-4 rounded border-slate-300 text-slate-900" />
+        <label class="col d-flex align-items-center gap-2 rounded-5 border border-slate-200 px-3 py-18 fs-sm text-slate-700">
+          <input type="checkbox" name="features" value="${escapeHtml(feature.id)}" class="form-check-input mt-0" />
           <span>${escapeHtml(feature.name)}</span>
         </label>
       `,
@@ -447,17 +448,17 @@ function createPhotoManager(root) {
     previews.innerHTML = items
       .map(
         (item, index) => `
-          <div class="group relative overflow-hidden rounded-2xl ring-1 ring-slate-200" data-photo-item="${escapeHtml(item.id)}">
-            <img src="${escapeHtml(item.previewUrl)}" alt="" class="h-28 w-full object-cover" />
-            ${index === 0 ? '<span class="absolute left-1.5 top-1.5 rounded-full bg-slate-900/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">Корица</span>' : ''}
-            <button type="button" data-photo-remove="${escapeHtml(item.id)}" class="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900/80 text-xs font-bold text-white transition hover:bg-rose-600" aria-label="Премахни снимка">×</button>
-            ${index !== 0 ? `<button type="button" data-photo-cover="${escapeHtml(item.id)}" class="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-slate-700 opacity-0 transition group-hover:opacity-100 hover:bg-white">Направи основна</button>` : ''}
+          <div class="col property-photo-thumb position-relative overflow-hidden rounded-5 ring-1 ring-slate-200" data-photo-item="${escapeHtml(item.id)}">
+            <img src="${escapeHtml(item.previewUrl)}" alt="" class="h-28 w-100 object-fit-cover" />
+            ${index === 0 ? '<span class="photo-badge-cover rounded-pill bg-slate-900-80 px-2 py-16 fs-10 fw-semibold text-uppercase tracking-wide text-white">Корица</span>' : ''}
+            <button type="button" data-photo-remove="${escapeHtml(item.id)}" class="photo-badge-remove d-flex h-6 w-6 align-items-center justify-content-center rounded-pill bg-slate-900-80 fs-xs fw-bold text-white transition hover-bg-rose-600" aria-label="Премахни снимка">×</button>
+            ${index !== 0 ? `<button type="button" data-photo-cover="${escapeHtml(item.id)}" class="photo-badge-setcover photo-badge-reveal rounded-pill bg-white-90 px-2 py-16 fs-10 fw-semibold text-slate-700 opacity-0 transition hover-bg-white">Направи основна</button>` : ''}
           </div>
         `,
       )
       .join('');
 
-    uploadLabel.classList.toggle('hidden', items.length >= MAX_PHOTOS);
+    uploadLabel.classList.toggle('d-none', items.length >= MAX_PHOTOS);
 
     previews.querySelectorAll('[data-photo-remove]').forEach((button) => {
       button.addEventListener('click', () => remove(button.dataset.photoRemove));
@@ -575,7 +576,7 @@ export function hydrate(root, params, { authState }) {
     }
 
     if (!isUuid(propertyId)) {
-      form.classList.add('hidden');
+      form.classList.add('d-none');
       setMessage(root, 'Имотът не е намерен.');
       return;
     }
@@ -583,13 +584,13 @@ export function hydrate(root, params, { authState }) {
     const { data: property, error } = await fetchPropertyById(propertyId);
 
     if (error || !property) {
-      form.classList.add('hidden');
+      form.classList.add('d-none');
       setMessage(root, 'Имотът не е намерен или вече не е наличен.');
       return;
     }
 
     if (property.owner_id !== authState.user.id && !authState.isAdmin) {
-      form.classList.add('hidden');
+      form.classList.add('d-none');
       setMessage(root, 'Можете да редактирате само своите обяви.');
       return;
     }

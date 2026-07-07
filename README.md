@@ -35,7 +35,7 @@ Supabase project
 
 - **Vanilla JavaScript (ES modules, ES6+)** — no framework (no React/Vue/Angular, no TypeScript), per project constraints.
 - **Vite** — dev server (port 5173) and production bundler (`dist/`).
-- **Tailwind CSS** (utility classes directly in markup) + a small amount of custom CSS in `src/styles/main.css`.
+- **Bootstrap 5** (utility/component classes directly in markup), compiled from Sass (`src/styles/main.scss`) with its theme variables overridden in `src/styles/_tokens.scss` to match the app's original color palette, spacing scale, radii and shadows, plus a small custom utility layer for the handful of things Bootstrap has no class for. Bespoke per-page/component CSS lives in a co-located `<name>.scss` imported by that file's `.js`.
 - Each page is loaded lazily (`import()`) by a hand-rolled client-side router using the History API — no routing library.
 - Pages are plain functions: `render(params, { authState })` returns an HTML string (from an `?raw`-imported `.html` template), and an optional `hydrate(root, params, { authState })` wires up event listeners after the HTML is inserted into the DOM.
 - **hCaptcha** on login/registration forms, loaded globally via a `<script>` tag in `index.html` and rendered explicitly per-page (`src/lib/hcaptcha.js`) since the widget container doesn't exist until the router renders that page.
@@ -233,9 +233,11 @@ src/components/
 src/pages/<name>/<name>.js+.html  One folder per route; each exports render() and optionally hydrate()
   home, properties, property-details, add-property (create + edit), profile, admin,
   login, register, forgot-password, reset-password, cookies, privacy, terms, not-found
-src/styles/main.css            Tailwind directives + minimal custom CSS
+src/styles/
+  main.scss                    Bootstrap theme overrides + import + custom utility layer
+  _tokens.scss                  Color/palette Sass variables, shared by main.scss and page-scoped scss files
 supabase/migrations/            Timestamped SQL migrations — source of truth for the DB schema (see section 3)
-vite.config.js, tailwind.config.js, postcss.config.js   Build tooling config
+vite.config.js                  Build tooling config (Sass support via the `sass` package)
 netlify.toml                    Netlify build/publish + SPA redirect config
 CLAUDE.md                        AI-assistant working agreement (hard constraints, architecture notes)
 ```

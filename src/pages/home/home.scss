@@ -1,0 +1,47 @@
+@import "../../styles/tokens";
+
+// Hero section: the original used non-standard spacing/font-size steps at the
+// `sm` breakpoint that don't land on the shared extended spacer/fs scale.
+.hero-inner {
+  @media (min-width: 576px) {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+.hero-title {
+  @media (min-width: 576px) {
+    font-size: 3rem; // matches $h1-font-size / text-5xl
+  }
+}
+
+.cta-heading {
+  @media (min-width: 576px) {
+    font-size: 1.875rem; // matches $h3-font-size / text-3xl
+  }
+}
+
+// Category tiles: photo zooms on hover (was `group` + `group-hover:scale-105`),
+// and grows from h-36 (9rem) to 10rem at the `sm` breakpoint (Tailwind's
+// `sm:h-40`, which has no ready-made fixed-size utility).
+.category-tile {
+  @media (min-width: 576px) {
+    height: 10rem;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+// Big transaction tiles: same hover-zoom photo effect, plus the CTA pill
+// tints emerald on hover (was `group-hover:bg-emerald-50`).
+.transaction-tile {
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  &:hover .transaction-cta {
+    background-color: $emerald-50;
+  }
+}

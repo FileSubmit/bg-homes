@@ -121,12 +121,12 @@ async function renderRoute(pageSlot, onRouteChange) {
 
     if (pathname === '/admin' && !authState.isAdmin) {
       pageSlot.innerHTML = `
-        <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
-          <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
-            <p class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-600">Отказан достъп</p>
-            <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Само за администратори</h1>
-            <p class="mt-4 text-slate-600">Влезли сте в профила си, но нямате администраторски права.</p>
-            <a class="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white" href="/">Начало</a>
+        <section class="mx-auto max-w-2xl px-3 py-13 px-sm-4 px-lg-9">
+          <div class="rounded-3xl bg-white p-9 shadow-sm ring-1 ring-slate-200 p-sm-11">
+            <p class="fs-sm fw-semibold text-uppercase tracking-widest-lg text-rose-600">Отказан достъп</p>
+            <h1 class="mt-6 fs-3 fw-bold tracking-tight text-slate-900">Само за администратори</h1>
+            <p class="mt-3 text-slate-600">Влезли сте в профила си, но нямате администраторски права.</p>
+            <a class="mt-9 d-inline-flex rounded-pill bg-slate-900 px-4 py-6 fs-sm fw-semibold text-white" href="/">Начало</a>
           </div>
         </section>
       `;

@@ -1,0 +1,13 @@
+@import "../../styles/tokens";
+
+// Responsive heading size (Tailwind's `text-3xl sm:text-4xl`) — Bootstrap's
+// fs-* utilities have no responsive variants, so this is a scoped rule.
+.legal-page-title {
+  font-size: 1.875rem; // text-3xl
+}
+
+@media (min-width: 576px) {
+  .legal-page-title {
+    font-size: 2.25rem; // text-4xl
+  }
+}

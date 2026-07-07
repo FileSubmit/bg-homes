@@ -1,0 +1,83 @@
+@import "../../styles/tokens";
+
+// Fixed-width sidebar + content layout for the profile page (was `lg:grid-cols-[240px_1fr]`)
+.profile-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 992px) {
+  .profile-layout {
+    grid-template-columns: 240px 1fr;
+  }
+}
+
+// Sticky tab nav on large screens (was `lg:sticky lg:top-24 lg:h-fit lg:overflow-visible`)
+@media (min-width: 992px) {
+  .profile-nav {
+    position: sticky;
+    top: 6rem;
+    height: fit-content;
+    overflow: visible;
+  }
+}
+
+// Responsive hero title size (was `text-3xl sm:text-4xl`; 2.25rem = fs-2 equivalent)
+@media (min-width: 576px) {
+  .profile-hero-title {
+    font-size: 2.25rem;
+  }
+}
+
+// Messages split view: conversation list + thread (was `lg:grid-cols-[300px_1fr]`)
+.profile-messages-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 992px) {
+  .profile-messages-grid {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+// Conversations sidebar border switches from bottom to right at lg (was `lg:border-b-0 lg:border-r`)
+@media (min-width: 992px) {
+  .profile-messages-sidebar {
+    border-bottom: 0;
+    border-right: 1px solid $slate-200;
+  }
+}
+
+// Fixed max-heights for the conversations list (was `max-h-[28rem] lg:max-h-[36rem]`)
+.profile-conversations-list {
+  max-height: 28rem;
+}
+@media (min-width: 992px) {
+  .profile-conversations-list {
+    max-height: 36rem;
+  }
+}
+
+// Fixed min-height for the conversation thread panel (was `min-h-[24rem]`)
+.profile-conversation-thread {
+  min-height: 24rem;
+}
+
+// Chat bubble width cap (was `max-w-[75%]`) and timestamp size (was `text-[11px]`)
+.profile-message-bubble {
+  max-width: 75%;
+}
+
+.profile-message-time {
+  font-size: 11px;
+}
+
+// Reply textarea focus border (was `focus:border-slate-900`, no glow ring)
+.profile-reply-textarea:focus {
+  border-color: $slate-900;
+}
+
+// Disabled state for the pill submit buttons (was `disabled:cursor-not-allowed disabled:opacity-60`)
+.profile-disabled-btn:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
