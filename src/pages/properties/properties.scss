@@ -1,9 +1,0 @@
-@import "../../styles/tokens";
-
-// Tailwind's `sm:text-4xl` on the page heading (base `fs-3` = text-3xl already
-// via Bootstrap's tuned fs utilities) — bump to text-4xl size at the sm breakpoint.
-.properties-title {
-  @media (min-width: 576px) {
-    font-size: 2.25rem;
-  }
-}

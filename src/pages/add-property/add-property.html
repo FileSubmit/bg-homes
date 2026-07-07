@@ -1,158 +1,158 @@
-<section class="mx-auto max-w-4xl px-3 py-13 px-sm-4 px-lg-9">
-  <div class="rounded-3xl bg-white p-9 shadow-sm ring-1 ring-slate-200 p-sm-11">
-    <p class="fs-sm fw-semibold text-uppercase tracking-widest-lg text-emerald-600">Обяви</p>
-    <h1 data-form-title class="mt-6 fs-3 fw-bold tracking-tight text-slate-900">Добавяне на имот</h1>
-    <p data-form-subtitle class="mt-6 text-slate-600">Попълнете данните по-долу, за да публикувате обявата си.</p>
-    <div data-property-message class="d-none"></div>
-    <form data-property-form class="property-form mt-9 space-y-8" novalidate>
+<section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Обяви</p>
+    <h1 data-form-title class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Добавяне на имот</h1>
+    <p data-form-subtitle class="mt-3 text-slate-600">Попълнете данните по-долу, за да публикувате обявата си.</p>
+    <div data-property-message class="hidden"></div>
+    <form data-property-form class="mt-8 space-y-8" novalidate>
       <fieldset class="space-y-5">
-        <legend class="fs-6 fw-semibold text-slate-900">Основна информация</legend>
-        <label class="d-block space-y-2">
-          <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Заглавие <span class="text-rose-500">*</span></span>
-          <input class="form-control rounded-5 border-slate-300" name="title" type="text" maxlength="200" placeholder="Светъл тристаен апартамент" required />
+        <legend class="text-lg font-semibold text-slate-900">Основна информация</legend>
+        <label class="block space-y-2">
+          <span class="text-sm font-medium text-slate-700">Заглавие <span class="text-rose-500">*</span></span>
+          <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="title" type="text" maxlength="200" placeholder="Светъл тристаен апартамент" required />
         </label>
-        <div class="row row-cols-1 row-cols-sm-2 g-7">
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Сделка <span class="text-rose-500">*</span></span>
-            <select class="form-select rounded-5 border-slate-300" name="transaction_type" data-transaction-select required>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Сделка <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="transaction_type" data-transaction-select required>
               <option value="">Изберете…</option>
             </select>
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Вид имот <span class="text-rose-500">*</span></span>
-            <select class="form-select rounded-5 border-slate-300" name="property_type" data-property-type-select required>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Вид имот <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="property_type" data-property-type-select required>
               <option value="">Изберете…</option>
             </select>
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Цена <span class="text-rose-500">*</span></span>
-            <input class="form-control rounded-5 border-slate-300" name="price" type="number" min="0" step="0.01" placeholder="250000" required />
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Цена <span class="text-rose-500">*</span></span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="price" type="number" min="0" step="0.01" placeholder="250000" required />
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Валута <span class="text-rose-500">*</span></span>
-            <select class="form-select rounded-5 border-slate-300" name="currency" data-currency-select required>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Валута <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="currency" data-currency-select required>
             </select>
           </label>
         </div>
       </fieldset>
 
       <fieldset class="space-y-5">
-        <legend class="fs-6 fw-semibold text-slate-900">Местоположение</legend>
-        <div class="row row-cols-1 row-cols-sm-2 g-7">
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Област <span class="text-rose-500">*</span></span>
-            <select class="form-select rounded-5 border-slate-300" name="region" data-region-select required>
+        <legend class="text-lg font-semibold text-slate-900">Местоположение</legend>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Област <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="region" data-region-select required>
               <option value="">Изберете област…</option>
             </select>
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Град <span class="text-rose-500">*</span></span>
-            <select class="form-select rounded-5 border-slate-300" name="city" data-city-select required disabled>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Град <span class="text-rose-500">*</span></span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400" name="city" data-city-select required disabled>
               <option value="">Първо изберете област…</option>
             </select>
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Квартал</span>
-            <select class="d-none form-select rounded-5 border-slate-300" name="neighborhood" data-neighborhood-select disabled>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Квартал</span>
+            <select class="hidden w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="neighborhood" data-neighborhood-select disabled>
               <option value="">Изберете квартал…</option>
             </select>
-            <input class="form-control rounded-5 border-slate-300" name="neighborhood" data-neighborhood-input type="text" maxlength="120" placeholder="Първо изберете град…" disabled />
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400" name="neighborhood" data-neighborhood-input type="text" maxlength="120" placeholder="Първо изберете град…" disabled />
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Адрес <span class="text-rose-500">*</span></span>
-            <input class="form-control rounded-5 border-slate-300" name="address" type="text" maxlength="200" placeholder="ул. Пример 12" required />
-          </label>
-        </div>
-      </fieldset>
-
-      <fieldset class="space-y-5">
-        <legend class="fs-6 fw-semibold text-slate-900">Площ и разпределение</legend>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-7">
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Полезна площ (кв.м)</span>
-            <input class="form-control rounded-5 border-slate-300" name="net_area" type="number" min="1" step="0.01" placeholder="85" />
-          </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Обща площ (кв.м)</span>
-            <input class="form-control rounded-5 border-slate-300" name="gross_area" type="number" min="1" step="0.01" placeholder="98" />
-          </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Спални</span>
-            <input class="form-control rounded-5 border-slate-300" name="bedrooms" type="number" min="0" max="100" step="1" placeholder="2" />
-          </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Бани</span>
-            <input class="form-control rounded-5 border-slate-300" name="bathrooms" type="number" min="0" max="100" step="0.5" placeholder="1" />
-          </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Етаж</span>
-            <input class="form-control rounded-5 border-slate-300" name="floor" type="number" min="-5" max="200" step="1" placeholder="3" />
-          </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Общо етажи</span>
-            <input class="form-control rounded-5 border-slate-300" name="total_floors" type="number" min="1" max="200" step="1" placeholder="6" />
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Адрес <span class="text-rose-500">*</span></span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="address" type="text" maxlength="200" placeholder="ул. Пример 12" required />
           </label>
         </div>
       </fieldset>
 
       <fieldset class="space-y-5">
-        <legend class="fs-6 fw-semibold text-slate-900">Строителство и удобства</legend>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-7">
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Конструкция</span>
-            <select class="form-select rounded-5 border-slate-300" name="construction_type" data-construction-type-select>
-              <option value="">Изберете…</option>
-            </select>
+        <legend class="text-lg font-semibold text-slate-900">Площ и разпределение</legend>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Полезна площ (кв.м)</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="net_area" type="number" min="1" step="0.01" placeholder="85" />
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Година на строеж</span>
-            <input class="form-control rounded-5 border-slate-300" name="construction_year" type="number" min="1800" step="1" placeholder="2010" />
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Обща площ (кв.м)</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="gross_area" type="number" min="1" step="0.01" placeholder="98" />
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Етап на строителство</span>
-            <select class="form-select rounded-5 border-slate-300" name="construction_stage" data-construction-stage-select>
-              <option value="">Изберете…</option>
-            </select>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Спални</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="bedrooms" type="number" min="0" max="100" step="1" placeholder="2" />
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Отопление</span>
-            <select class="form-select rounded-5 border-slate-300" name="heating" data-heating-select>
-              <option value="">Изберете…</option>
-            </select>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Бани</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="bathrooms" type="number" min="0" max="100" step="0.5" placeholder="1" />
           </label>
-          <label class="col d-block space-y-2">
-            <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Обзавеждане</span>
-            <select class="form-select rounded-5 border-slate-300" name="furnishing" data-furnishing-select>
-              <option value="">Изберете…</option>
-            </select>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Етаж</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="floor" type="number" min="-5" max="200" step="1" placeholder="3" />
           </label>
-        </div>
-        <div data-features-section class="d-none space-y-3">
-          <span class="fs-sm fw-medium text-slate-700">Особености</span>
-          <div data-features-list class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2"></div>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Общо етажи</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="total_floors" type="number" min="1" max="200" step="1" placeholder="6" />
+          </label>
         </div>
       </fieldset>
 
       <fieldset class="space-y-5">
-        <legend class="fs-6 fw-semibold text-slate-900">Описание и снимки</legend>
-        <label class="d-block space-y-2">
-          <span class="form-label mb-0 fs-sm fw-medium text-slate-700">Описание</span>
-          <textarea class="form-control rounded-5 border-slate-300" name="description" rows="5" maxlength="5000" placeholder="Опишете имота…"></textarea>
+        <legend class="text-lg font-semibold text-slate-900">Строителство и удобства</legend>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Конструкция</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="construction_type" data-construction-type-select>
+              <option value="">Изберете…</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Година на строеж</span>
+            <input class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="construction_year" type="number" min="1800" step="1" placeholder="2010" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Етап на строителство</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="construction_stage" data-construction-stage-select>
+              <option value="">Изберете…</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Отопление</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="heating" data-heating-select>
+              <option value="">Изберете…</option>
+            </select>
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Обзавеждане</span>
+            <select class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="furnishing" data-furnishing-select>
+              <option value="">Изберете…</option>
+            </select>
+          </label>
+        </div>
+        <div data-features-section class="hidden space-y-3">
+          <span class="text-sm font-medium text-slate-700">Особености</span>
+          <div data-features-list class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="space-y-5">
+        <legend class="text-lg font-semibold text-slate-900">Описание и снимки</legend>
+        <label class="block space-y-2">
+          <span class="text-sm font-medium text-slate-700">Описание</span>
+          <textarea class="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-slate-900" name="description" rows="5" maxlength="5000" placeholder="Опишете имота…"></textarea>
         </label>
         <div class="space-y-3">
-          <span class="fs-sm fw-medium text-slate-700">Снимки на имота</span>
-          <div data-photo-previews class="row row-cols-2 row-cols-sm-3 row-cols-lg-5 g-6"></div>
-          <label data-photo-upload-label class="d-inline-flex cursor-pointer align-items-center gap-2 rounded-5 border dashed-border border-slate-300 px-3 py-6 fs-sm fw-medium text-slate-600 transition hover-border-slate-400 hover-text-slate-900">
+          <span class="text-sm font-medium text-slate-700">Снимки на имота</span>
+          <div data-photo-previews class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"></div>
+          <label data-photo-upload-label class="inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-slate-400 hover:text-slate-900">
             <span>+ Добавяне на снимки</span>
-            <input data-photo-input class="d-none" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
+            <input data-photo-input class="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
           </label>
-          <span class="d-block fs-xs text-slate-500">До 5 снимки, макс. 2MB всяка (JPEG, PNG, WebP или GIF). Първата снимка се използва като корица на обявата.</span>
+          <span class="block text-xs text-slate-500">До 5 снимки, макс. 2MB всяка (JPEG, PNG, WebP или GIF). Първата снимка се използва като корица на обявата.</span>
         </div>
       </fieldset>
 
-      <div class="d-flex flex-wrap align-items-center gap-3">
-        <button data-property-submit class="btn btn-primary rounded-pill px-4 py-6 fs-sm fw-semibold" type="submit">Публикуване на обявата</button>
-        <a data-property-cancel class="fs-sm fw-medium text-slate-600 transition hover-text-slate-900" href="/properties">Отказ</a>
+      <div class="flex flex-wrap items-center gap-4">
+        <button data-property-submit class="rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60" type="submit">Публикуване на обявата</button>
+        <a data-property-cancel class="text-sm font-medium text-slate-600 transition hover:text-slate-900" href="/properties">Отказ</a>
       </div>
     </form>
   </div>

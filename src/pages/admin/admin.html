@@ -1,99 +1,99 @@
-<section class="mx-auto max-w-7xl px-3 py-11 px-sm-4 px-lg-9">
+<section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
   <div>
-    <p class="fs-sm fw-semibold text-uppercase tracking-widest-lg text-emerald-600">Админ</p>
-    <h1 class="mt-6 admin-hero-title fw-bold tracking-tight text-slate-900">Административно табло</h1>
-    <p class="mt-6 max-w-2xl text-slate-600">Преглед на потребители, обяви и запитвания в платформата.</p>
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Админ</p>
+    <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Административно табло</h1>
+    <p class="mt-3 max-w-2xl text-slate-600">Преглед на потребители, обяви и запитвания в платформата.</p>
   </div>
 
-  <div class="mt-9 gap-4 admin-layout-grid">
-    <nav class="d-flex gap-2 overflow-x-auto rounded-3xl bg-white p-2 shadow-sm ring-1 ring-slate-200 flex-lg-column gap-lg-1 admin-nav">
-      <button type="button" data-tab-button="overview" class="btn d-flex flex-shrink-0 align-items-center gap-2 rounded-5 px-3 py-18 text-start fs-sm fw-semibold transition">
+  <div class="mt-8 grid gap-6 lg:grid-cols-[240px_1fr]">
+    <nav class="flex gap-2 overflow-x-auto rounded-3xl bg-white p-2 shadow-sm ring-1 ring-slate-200 lg:sticky lg:top-24 lg:h-fit lg:flex-col lg:gap-1 lg:overflow-visible">
+      <button type="button" data-tab-button="overview" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
         Преглед
       </button>
-      <button type="button" data-tab-button="users" class="btn d-flex flex-shrink-0 align-items-center gap-2 rounded-5 px-3 py-18 text-start fs-sm fw-semibold transition">
+      <button type="button" data-tab-button="users" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
         Потребители
       </button>
-      <button type="button" data-tab-button="properties" class="btn d-flex flex-shrink-0 align-items-center gap-2 rounded-5 px-3 py-18 text-start fs-sm fw-semibold transition">
+      <button type="button" data-tab-button="properties" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
         Имоти
       </button>
-      <button type="button" data-tab-button="inquiries" class="btn d-flex flex-shrink-0 align-items-center gap-2 rounded-5 px-3 py-18 text-start fs-sm fw-semibold transition">
+      <button type="button" data-tab-button="inquiries" class="flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-left text-sm font-semibold transition">
         Запитвания
       </button>
     </nav>
 
     <div class="min-w-0">
-      <p data-admin-error class="d-none rounded-5 bg-rose-50 px-3 py-6 fs-sm text-rose-700 ring-1 ring-rose-200"></p>
+      <p data-admin-error class="hidden rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-rose-200"></p>
 
       <section data-tab-panel="overview" class="space-y-6">
-        <div data-stat-cards class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
-          <div class="col animate-pulse rounded-5 bg-slate-100 p-7 h-24"></div>
-          <div class="col animate-pulse rounded-5 bg-slate-100 p-7 h-24"></div>
-          <div class="col animate-pulse rounded-5 bg-slate-100 p-7 h-24"></div>
-          <div class="col animate-pulse rounded-5 bg-slate-100 p-7 h-24"></div>
+        <div data-stat-cards class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="animate-pulse rounded-2xl bg-slate-100 p-5 h-24"></div>
+          <div class="animate-pulse rounded-2xl bg-slate-100 p-5 h-24"></div>
+          <div class="animate-pulse rounded-2xl bg-slate-100 p-5 h-24"></div>
+          <div class="animate-pulse rounded-2xl bg-slate-100 p-5 h-24"></div>
         </div>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4">
-          <div class="col rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <h2 class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Имоти по вид сделка</h2>
-            <div data-breakdown="transaction" class="mt-3 space-y-3"></div>
+        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Имоти по вид сделка</h2>
+            <div data-breakdown="transaction" class="mt-4 space-y-3"></div>
           </div>
-          <div class="col rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <h2 class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Имоти по вид</h2>
-            <div data-breakdown="property-type" class="mt-3 space-y-3"></div>
+          <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Имоти по вид</h2>
+            <div data-breakdown="property-type" class="mt-4 space-y-3"></div>
           </div>
-          <div class="col rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <h2 class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Топ градове</h2>
-            <div data-breakdown="cities" class="mt-3 space-y-3"></div>
+          <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Топ градове</h2>
+            <div data-breakdown="cities" class="mt-4 space-y-3"></div>
           </div>
-          <div class="col rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <h2 class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Запитвания по статус</h2>
-            <div data-breakdown="inquiry-status" class="mt-3 space-y-3"></div>
+          <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Запитвания по статус</h2>
+            <div data-breakdown="inquiry-status" class="mt-4 space-y-3"></div>
           </div>
         </div>
 
-        <div class="row row-cols-1 row-cols-lg-2 g-4">
-          <div class="col rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <h2 class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Най-нови потребители</h2>
-            <div data-recent-users class="mt-3 space-y-3"></div>
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Най-нови потребители</h2>
+            <div data-recent-users class="mt-4 space-y-3"></div>
           </div>
-          <div class="col rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <h2 class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Най-нови обяви</h2>
-            <div data-recent-properties class="mt-3 space-y-3"></div>
+          <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Най-нови обяви</h2>
+            <div data-recent-properties class="mt-4 space-y-3"></div>
           </div>
         </div>
       </section>
 
-      <section data-tab-panel="users" class="d-none">
-        <div class="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <h2 class="fs-6 fw-semibold text-slate-900">Потребители</h2>
-            <input type="search" data-users-search placeholder="Търси по име или имейл…" class="form-control max-w-xs rounded-4 border-slate-300 fs-sm text-slate-900" />
+      <section data-tab-panel="users" class="hidden">
+        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold text-slate-900">Потребители</h2>
+            <input type="search" data-users-search placeholder="Търси по име или имейл…" class="w-full max-w-xs rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900" />
           </div>
-          <div class="mt-3 table-responsive">
-            <table class="table table-hover fs-sm">
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full min-w-[640px] text-left text-sm">
               <thead>
-                <tr class="border-bottom border-slate-200 fs-xs fw-semibold text-uppercase tracking-wide text-slate-500">
-                  <th class="py-2 pe-3">Име</th>
-                  <th class="py-2 pe-3">Имейл</th>
-                  <th class="py-2 pe-3">Телефон</th>
-                  <th class="py-2 pe-3">Роля</th>
-                  <th class="py-2 pe-3">Обяви</th>
-                  <th class="py-2 pe-3">Регистриран на</th>
+                <tr class="border-b border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th class="py-2 pr-4">Име</th>
+                  <th class="py-2 pr-4">Имейл</th>
+                  <th class="py-2 pr-4">Телефон</th>
+                  <th class="py-2 pr-4">Роля</th>
+                  <th class="py-2 pr-4">Обяви</th>
+                  <th class="py-2 pr-4">Регистриран на</th>
                 </tr>
               </thead>
-              <tbody data-users-table-body></tbody>
+              <tbody data-users-table-body class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <section data-tab-panel="properties" class="d-none">
-        <div class="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <h2 class="fs-6 fw-semibold text-slate-900">Имоти</h2>
-            <div class="d-flex flex-wrap gap-6">
-              <input type="search" data-properties-search placeholder="Търси по заглавие или град…" class="form-control max-w-xs rounded-4 border-slate-300 fs-sm text-slate-900" />
-              <select data-properties-status-filter class="form-select rounded-4 border-slate-300 fs-sm text-slate-900">
+      <section data-tab-panel="properties" class="hidden">
+        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold text-slate-900">Имоти</h2>
+            <div class="flex flex-wrap gap-3">
+              <input type="search" data-properties-search placeholder="Търси по заглавие или град…" class="w-full max-w-xs rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900" />
+              <select data-properties-status-filter class="rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900">
                 <option value="">Всички статуси</option>
                 <option value="active">Публикуван</option>
                 <option value="archived">Скрит</option>
@@ -101,50 +101,50 @@
               </select>
             </div>
           </div>
-          <p data-properties-message class="mt-3 d-none rounded-5 bg-rose-50 px-3 py-6 fs-sm text-rose-700 ring-1 ring-rose-200"></p>
-          <div class="mt-3 table-responsive">
-            <table class="table table-hover fs-sm">
+          <p data-properties-message class="mt-4 hidden rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-rose-200"></p>
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full min-w-[860px] text-left text-sm">
               <thead>
-                <tr class="border-bottom border-slate-200 fs-xs fw-semibold text-uppercase tracking-wide text-slate-500">
-                  <th class="py-2 pe-3">Заглавие</th>
-                  <th class="py-2 pe-3">Собственик</th>
-                  <th class="py-2 pe-3">Вид</th>
-                  <th class="py-2 pe-3">Цена</th>
-                  <th class="py-2 pe-3">Град</th>
-                  <th class="py-2 pe-3">Статус</th>
-                  <th class="py-2 pe-3">Създаден на</th>
-                  <th class="py-2 pe-3">Действия</th>
+                <tr class="border-b border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th class="py-2 pr-4">Заглавие</th>
+                  <th class="py-2 pr-4">Собственик</th>
+                  <th class="py-2 pr-4">Вид</th>
+                  <th class="py-2 pr-4">Цена</th>
+                  <th class="py-2 pr-4">Град</th>
+                  <th class="py-2 pr-4">Статус</th>
+                  <th class="py-2 pr-4">Създаден на</th>
+                  <th class="py-2 pr-4">Действия</th>
                 </tr>
               </thead>
-              <tbody data-properties-table-body></tbody>
+              <tbody data-properties-table-body class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <section data-tab-panel="inquiries" class="d-none">
-        <div class="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <h2 class="fs-6 fw-semibold text-slate-900">Запитвания</h2>
-            <select data-inquiries-status-filter class="form-select rounded-4 border-slate-300 fs-sm text-slate-900">
+      <section data-tab-panel="inquiries" class="hidden">
+        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold text-slate-900">Запитвания</h2>
+            <select data-inquiries-status-filter class="rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900">
               <option value="">Всички статуси</option>
               <option value="unread">Непрочетено</option>
               <option value="read">Прочетено</option>
               <option value="replied">Отговорено</option>
             </select>
           </div>
-          <div class="mt-3 table-responsive">
-            <table class="table table-hover fs-sm">
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full min-w-[760px] text-left text-sm">
               <thead>
-                <tr class="border-bottom border-slate-200 fs-xs fw-semibold text-uppercase tracking-wide text-slate-500">
-                  <th class="py-2 pe-3">Имот</th>
-                  <th class="py-2 pe-3">От</th>
-                  <th class="py-2 pe-3">Съобщение</th>
-                  <th class="py-2 pe-3">Статус</th>
-                  <th class="py-2 pe-3">Дата</th>
+                <tr class="border-b border-slate-200 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th class="py-2 pr-4">Имот</th>
+                  <th class="py-2 pr-4">От</th>
+                  <th class="py-2 pr-4">Съобщение</th>
+                  <th class="py-2 pr-4">Статус</th>
+                  <th class="py-2 pr-4">Дата</th>
                 </tr>
               </thead>
-              <tbody data-inquiries-table-body></tbody>
+              <tbody data-inquiries-table-body class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>

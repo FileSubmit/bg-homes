@@ -1,4 +1,4 @@
-import './styles/main.scss';
+import './styles/main.css';
 import { bootstrapApp } from './app.js';
 
 bootstrapApp();

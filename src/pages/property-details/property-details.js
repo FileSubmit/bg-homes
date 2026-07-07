@@ -1,4 +1,3 @@
-import './property-details.scss';
 import template from './property-details.html?raw';
 import {
   constructionStageLabels,
@@ -18,11 +17,11 @@ import { refreshUnreadBadge } from '../../components/header/header.js';
 
 function notFoundMarkup() {
   return `
-    <div class="rounded-3xl bg-white p-9 p-sm-11 shadow-sm ring-1 ring-slate-200">
-      <p class="fs-sm fw-semibold text-uppercase tracking-widest-lg text-emerald-600">Имот</p>
-      <h1 class="mt-6 fs-3 fw-bold tracking-tight text-slate-900">Имотът не е намерен</h1>
-      <p class="mt-3 text-slate-600">Тази обява не съществува или вече не е налична.</p>
-      <a class="mt-9 btn btn-dark rounded-pill px-7 py-18 fs-sm fw-semibold" href="/properties">Обратно към имотите</a>
+    <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-600">Имот</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">Имотът не е намерен</h1>
+      <p class="mt-4 text-slate-600">Тази обява не съществува или вече не е налична.</p>
+      <a class="mt-8 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white" href="/properties">Обратно към имотите</a>
     </div>
   `;
 }
@@ -33,9 +32,9 @@ function factTile(label, value) {
   }
 
   return `
-    <div class="col rounded-5 bg-slate-50 p-3">
-      <p class="fs-sm text-slate-500">${escapeHtml(label)}</p>
-      <p class="mt-2 fs-6 fw-semibold text-slate-900">${escapeHtml(value)}</p>
+    <div class="rounded-2xl bg-slate-50 p-4">
+      <p class="text-sm text-slate-500">${escapeHtml(label)}</p>
+      <p class="mt-2 text-lg font-semibold text-slate-900">${escapeHtml(value)}</p>
     </div>
   `;
 }
@@ -50,14 +49,14 @@ function photosMarkup(property) {
   }
 
   return `
-    <div class="mt-9 row row-cols-1 row-cols-sm-2 g-3">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
       ${photos
         .map(
           (photoUrl, index) => `
             <img
               src="${escapeHtml(photoUrl)}"
               alt="${escapeHtml(property.title)} снимка ${index + 1}"
-              class="${index === 0 ? 'col-sm-12 h-80' : 'col h-56'} w-100 rounded-5 object-fit-cover"
+              class="${index === 0 ? 'sm:col-span-2 h-80' : 'h-56'} w-full rounded-2xl object-cover"
               loading="lazy"
             />
           `,
@@ -77,13 +76,13 @@ function featuresMarkup(property, featureNamesById) {
   }
 
   return `
-    <div class="mt-9">
-      <h2 class="fs-6 fw-semibold text-slate-900">Особености</h2>
-      <ul class="mt-6 d-flex flex-wrap gap-2 list-unstyled">
+    <div class="mt-8">
+      <h2 class="text-lg font-semibold text-slate-900">Особености</h2>
+      <ul class="mt-3 flex flex-wrap gap-2">
         ${names
           .map(
             (name) => `
-              <li class="rounded-pill bg-emerald-50 px-3 py-17 fs-sm fw-medium text-emerald-700">${escapeHtml(name)}</li>
+              <li class="rounded-full bg-emerald-50 px-4 py-1.5 text-sm font-medium text-emerald-700">${escapeHtml(name)}</li>
             `,
           )
           .join('')}
@@ -101,16 +100,16 @@ function contactCardMarkup(property) {
   }
 
   const phone = owner.phone
-    ? `<a class="mt-1 d-block text-slate-600 transition hover-text-slate-900" href="tel:${escapeHtml(owner.phone)}">${escapeHtml(owner.phone)}</a>`
+    ? `<a class="mt-1 block text-slate-600 transition hover:text-slate-900" href="tel:${escapeHtml(owner.phone)}">${escapeHtml(owner.phone)}</a>`
     : '';
   const email = owner.email
-    ? `<a class="mt-1 d-block text-slate-600 transition hover-text-slate-900" href="mailto:${escapeHtml(owner.email)}">${escapeHtml(owner.email)}</a>`
+    ? `<a class="mt-1 block text-slate-600 transition hover:text-slate-900" href="mailto:${escapeHtml(owner.email)}">${escapeHtml(owner.email)}</a>`
     : '';
 
   return `
-    <div class="rounded-5 bg-slate-50 p-7 ring-1 ring-slate-200">
-      <p class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">За контакт</p>
-      <p class="mt-2 fs-6 fw-semibold text-slate-900">${name}</p>
+    <div class="rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200">
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">За контакт</p>
+      <p class="mt-2 text-lg font-semibold text-slate-900">${name}</p>
       ${phone}
       ${email}
     </div>
@@ -120,10 +119,10 @@ function contactCardMarkup(property) {
 function messageFormMarkup(property, authState) {
   if (!authState?.user) {
     return `
-      <div class="rounded-5 bg-white p-7 text-center ring-1 ring-slate-200">
-        <p class="fs-sm text-slate-600">Влезте в профила си, за да изпратите съобщение на автора на обявата.</p>
+      <div class="rounded-2xl bg-white p-5 text-center ring-1 ring-slate-200">
+        <p class="text-sm text-slate-600">Влезте в профила си, за да изпратите съобщение на автора на обявата.</p>
         <a
-          class="mt-6 btn btn-dark rounded-pill px-7 py-2 fs-sm fw-semibold"
+          class="mt-3 inline-flex rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
           href="/login?next=${encodeURIComponent(`/properties/${property.id}`)}"
         >
           Вход
@@ -133,22 +132,22 @@ function messageFormMarkup(property, authState) {
   }
 
   return `
-    <div class="rounded-5 bg-white p-7 ring-1 ring-slate-200">
-      <p class="fs-sm fw-semibold text-uppercase tracking-wide text-slate-500">Изпратете съобщение</p>
-      <p data-message-form-message class="d-none"></p>
-      <form data-message-form class="mt-3 space-y-3">
+    <div class="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Изпратете съобщение</p>
+      <p data-message-form-message class="hidden"></p>
+      <form data-message-form class="mt-4 space-y-3">
         <textarea
           name="body"
           rows="4"
           maxlength="4000"
           required
           placeholder="Здравейте, интересувам се от този имот…"
-          class="form-control message-textarea rounded-5 border-slate-300 px-3 py-6 fs-sm text-slate-900 outline-none transition"
+          class="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-900"
         ></textarea>
         <button
           type="submit"
           data-message-submit
-          class="btn btn-success rounded-pill px-7 py-18 fs-sm fw-semibold"
+          class="rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
         >
           Изпрати съобщение
         </button>
@@ -166,15 +165,15 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
     .join(', ');
 
   const statusBadge = property.status !== 'active'
-    ? `<span class="rounded-pill bg-amber-100 px-6 py-1 fs-xs fw-semibold text-uppercase tracking-wide text-amber-800">${escapeHtml(statusLabels[property.status] ?? property.status)}</span>`
+    ? `<span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">${escapeHtml(statusLabels[property.status] ?? property.status)}</span>`
     : '';
 
   const manageActions = canManage
     ? `
-      <div class="d-flex flex-wrap gap-6 rounded-5 bg-slate-50 p-3">
-        <span class="w-100 fs-sm fw-medium text-slate-500">Вие управлявате тази обява</span>
-        <a class="btn btn-outline-secondary rounded-pill px-7 py-2 fs-sm fw-semibold" href="/properties/${escapeHtml(property.id)}/edit">Редактиране на обявата</a>
-        <a class="btn btn-outline-secondary rounded-pill px-7 py-2 fs-sm fw-semibold" href="/profile">Управление в профила</a>
+      <div class="flex flex-wrap gap-3 rounded-2xl bg-slate-50 p-4">
+        <span class="w-full text-sm font-medium text-slate-500">Вие управлявате тази обява</span>
+        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/properties/${escapeHtml(property.id)}/edit">Редактиране на обявата</a>
+        <a class="inline-flex rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900" href="/profile">Управление в профила</a>
       </div>
     `
     : '';
@@ -184,22 +183,22 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
     .join('');
 
   return `
-    <div class="property-details-grid gap-9">
-      <div class="min-w-0 rounded-3xl bg-white p-9 p-sm-11 shadow-sm ring-1 ring-slate-200">
-        <div class="d-flex flex-wrap align-items-center gap-2">
-          <span class="rounded-pill bg-emerald-50 px-6 py-1 fs-xs fw-semibold text-uppercase tracking-wide text-emerald-700">
+    <div class="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
+      <div class="min-w-0 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200 sm:p-10">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
             ${escapeHtml(transactionTypeLabels[property.transaction_type] ?? property.transaction_type)}
           </span>
-          <span class="rounded-pill bg-slate-100 px-6 py-1 fs-xs fw-semibold text-uppercase tracking-wide text-slate-600">
+          <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
             ${escapeHtml(propertyTypeLabels[property.property_type] ?? property.property_type)}
           </span>
           ${statusBadge}
         </div>
-        <h1 class="mt-3 fs-2 fw-bold tracking-tight text-slate-900">${escapeHtml(property.title)}</h1>
-        <p class="mt-6 fs-6 text-slate-600">${location}</p>
-        <p class="mt-4 fs-2 fw-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-900">${escapeHtml(property.title)}</h1>
+        <p class="mt-3 text-lg text-slate-600">${location}</p>
+        <p class="mt-6 text-4xl font-bold text-slate-900">${formatPrice(property.price, property.currency)}</p>
         ${photosMarkup(property)}
-        <div class="mt-9 row row-cols-1 row-cols-sm-3 g-3">
+        <div class="mt-8 grid gap-4 sm:grid-cols-3">
           ${factTile('Полезна площ', property.net_area ? `${property.net_area} m²` : null)}
           ${factTile('Обща площ', property.gross_area ? `${property.gross_area} m²` : null)}
           ${factTile('Спални', property.bedrooms)}
@@ -213,14 +212,14 @@ function propertyDetailsMarkup(property, featureNamesById, authState) {
         </div>
         ${featuresMarkup(property, featureNamesById)}
         ${property.description ? `
-          <div class="mt-9">
-            <h2 class="fs-6 fw-semibold text-slate-900">Описание</h2>
-            <p class="mt-6 max-w-3xl whitespace-pre-line lh-8 text-slate-600">${escapeHtml(property.description)}</p>
+          <div class="mt-8">
+            <h2 class="text-lg font-semibold text-slate-900">Описание</h2>
+            <p class="mt-3 max-w-3xl whitespace-pre-line text-base leading-8 text-slate-600">${escapeHtml(property.description)}</p>
           </div>
         ` : ''}
-        <a class="mt-11 btn btn-dark rounded-pill px-7 py-18 fs-sm fw-semibold" href="/properties">Обратно към имотите</a>
+        <a class="mt-10 inline-flex rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800" href="/properties">Обратно към имотите</a>
       </div>
-      ${sidebarBlocks ? `<aside class="space-y-6 property-sidebar">${sidebarBlocks}</aside>` : ''}
+      ${sidebarBlocks ? `<aside class="space-y-6 lg:sticky lg:top-24">${sidebarBlocks}</aside>` : ''}
     </div>
   `;
 }
@@ -244,7 +243,7 @@ function wireMessageForm(details, property, authState) {
     }
 
     if (!message) {
-      messageSlot.classList.add('d-none');
+      messageSlot.classList.add('hidden');
       messageSlot.textContent = '';
       return;
     }
@@ -254,7 +253,7 @@ function wireMessageForm(details, property, authState) {
       success: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
     };
 
-    messageSlot.className = `mt-3 rounded-5 px-3 py-6 fs-sm ${tones[tone] ?? tones.error}`;
+    messageSlot.className = `mt-4 rounded-2xl px-4 py-3 text-sm ${tones[tone] ?? tones.error}`;
     messageSlot.textContent = message;
   };
 

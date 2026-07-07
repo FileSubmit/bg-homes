@@ -1,4 +1,3 @@
-import './forgot-password.scss';
 import template from './forgot-password.html?raw';
 import { requestPasswordReset } from '../../lib/auth.js';
 
@@ -14,12 +13,12 @@ function setMessage(root, message, tone = 'error') {
   }
 
   if (!message) {
-    messageSlot.classList.add('d-none');
+    messageSlot.classList.add('hidden');
     messageSlot.textContent = '';
     return;
   }
 
-  messageSlot.className = `alert ${tone === 'error' ? 'alert-danger' : 'alert-success'} mt-4 rounded-5 px-3 py-6 fs-sm`;
+  messageSlot.className = `mt-6 rounded-2xl px-4 py-3 text-sm ${tone === 'error' ? 'bg-rose-50 text-rose-700 ring-1 ring-rose-200' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'}`;
   messageSlot.textContent = message;
 }
 

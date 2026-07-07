@@ -20,7 +20,7 @@ Supabase env vars go in `.env` (never commit it): `VITE_SUPABASE_URL`, `VITE_SUP
 ## Hard constraints (from .github/copilot-instructions.md)
 
 - **Vanilla JavaScript only** — no TypeScript, no React/Vue/Angular. ES modules, ES6+.
-- **Bootstrap 5 utility/component classes directly in markup**. Bootstrap is compiled from Sass in `src/styles/main.scss`, which overrides Bootstrap's theme variables (colors, spacing scale, radii, shadows) in `src/styles/_tokens.scss` to match the app's original design, plus a small custom utility layer for the handful of things Bootstrap has no class for. Bespoke per-page/component CSS goes in a co-located `<name>.scss` (imported by that file's `.js`) that starts with `@import "../../styles/tokens";` — never re-import `bootstrap/scss/bootstrap` outside `main.scss`.
+- **Tailwind CSS utility classes directly in markup**; custom CSS stays minimal in `src/styles/main.css`.
 - All database schema changes are SQL migration files in `supabase/migrations/` (timestamped filenames).
 - Security via Supabase RLS policies; roles (`user`/`admin`) live in `profiles.role`.
 
